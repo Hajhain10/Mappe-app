@@ -24,12 +24,14 @@ public class LeggtilHus extends AppCompatActivity {
         setContentView(R.layout.legg_til_hus);
         double latitude = getIntent().getExtras().getDouble("lat",0);
         double longitude = getIntent().getExtras().getDouble("long", 0);
-        tekst = (TextView) findViewById(R.id.adresse);
+        tekst = (TextView) findViewById(R.id.koordianter);
         beskrivelse = (EditText) findViewById(R.id.beskrivelse);
         adresse = (EditText) findViewById(R.id.adresse);
         etasjer = (EditText) findViewById(R.id.etasjer);
         String ut = getLocationFromnumber(latitude+","+longitude);
-        tekst.setText(ut);
+        adresse.setText(ut);
+        tekst.setText(latitude+","+longitude);
+
 
     }
     public String getLocationFromnumber(String navn) {

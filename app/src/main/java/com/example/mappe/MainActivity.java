@@ -1,12 +1,11 @@
 package com.example.mappe;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
-import android.graphics.Camera;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,12 +19,22 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener,
         OnMapReadyCallback, GoogleMap.OnMapClickListener {
-    private GoogleMap nMap;
-    private Marker marker;
+    protected GoogleMap nMap;
+    protected Marker marker;
+   // public ArrayList<Hus>husliste = new ArrayList<>();
     Button b;
     Button a;
     Button c;
@@ -43,8 +52,10 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        HusJSON task = new HusJSON();
+        HuskJSON task = new HuskJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/husout.php"});
+
+
     }
 
     @Override
@@ -52,14 +63,13 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         nMap = googleMap;
 
         LatLng sydney = new LatLng(59.9238031,10.7292638);
-        LatLng l = new LatLng(59.9241992,10.9560766);
-        nMap.addMarker(new MarkerOptions().position(l).title("Gammwlt hus").snippet("sniper deg 2 ganger"));
-        nMap.addMarker(new MarkerOptions().position(sydney).title("Lørenskog!").snippet("snipped"));
+       // LatLng l = new LatLng(59.9241992,10.9560766);
+       // nMap.addMarker(new MarkerOptions().position(l).title("Gammwlt hus").snippet("sniper deg 2 ganger"));
+       // nMap.addMarker(new MarkerOptions().position(sydney).title("OSLO").snippet("snipped"));
         float zoom = 14.0f;
         nMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,zoom));
 
         nMap.setOnMarkerClickListener(this);
-
         //nMap.setOnMapClickListener(this);
     }
     public boolean onMarkerClick(final Marker marker) {
@@ -141,5 +151,73 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         nMap.setOnMarkerClickListener(this);
         a.setText("Nytt sted");
         c.setVisibility(View.GONE);
+    }
+
+    public void tilRom(View view) {
+        Intent i = new Intent(this,Rom_side.class);
+        startActivity(i);
+        //sender også med id nummer for huset.
+    }
+
+    protected class HuskJSON extends AsyncTask<String, Void,ArrayList<Hus>> {
+        JSONObject jsonObject;
+        ArrayList<Hus> ny = new ArrayList<>();
+        Hus etHus = new Hus();
+        @Override
+        protected ArrayList<Hus> doInBackground(String... urls) {
+            String retur = "";
+            String s = "";
+            String output = "";
+            for (String url : urls){
+                try{
+                    URL urlen = new URL(urls[0]);
+                    HttpURLConnection conn= (HttpURLConnection)urlen.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Accept", "application/json");
+                    if(conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed: HTTP errorcode: "+ conn.getResponseCode());
+                    }
+                    BufferedReader br= new BufferedReader(new InputStreamReader((conn.getInputStream())));
+                    System.out.println("Output from Server .... \n");
+                    while((s = br.readLine()) != null) { output = output + s; }
+                    conn.disconnect();
+                    try{
+                        JSONArray mat = new JSONArray(output);
+                        for (int i = 0; i < mat.length(); i++) {
+                            JSONObject jsonobject= mat.getJSONObject(i);
+                            String beskrivelse = jsonobject.getString("beskrivelse");
+                            String gateadresse= jsonobject.getString("gateadresse");
+                            String koordinater= jsonobject.getString("koordinater");
+                            String antalletasjer= jsonobject.getString("antalletasjer");
+                            retur = retur + beskrivelse +" "+gateadresse +" "+koordinater +
+                                    " "+antalletasjer +"\n";
+
+
+                            etHus = new Hus(beskrivelse, gateadresse, koordinater, antalletasjer);
+                            ny.add(etHus);
+                            System.out.println("ccccccc "+retur );
+                        }
+                        return ny;
+                    } catch(JSONException e) {
+                        e.printStackTrace();
+                    }
+                    return ny;
+                } catch(Exception e) {
+                    return null;
+                }
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(ArrayList<Hus> ss) {
+           for(int i= 0; i<ss.size();i++){
+               String[] latlng = ss.get(i).getKoordinater().split(",");
+               LatLng pos = new LatLng(Double.parseDouble(latlng[0]),Double.parseDouble(latlng[1]));
+               nMap.addMarker(new MarkerOptions().position(pos).title(ss.get(i).getGateadresse())
+                       .snippet(ss.get(i).getBeskrivelse()+"|"+ss.get(i).getAntallEtasjer()));
+           }
+            System.out.println("jaaa "+ss.size()+ss);
+        }
+
     }
 }

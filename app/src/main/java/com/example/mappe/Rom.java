@@ -12,6 +12,7 @@ public class Rom {
         this.etasjenr = etasjenr;
     }
 
+    public Rom(){}
     public int getRomnummer() {
         return romnummer;
     }
