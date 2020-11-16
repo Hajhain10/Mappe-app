@@ -1,12 +1,14 @@
 package com.example.mappe;
 
 public class Hus {
-    private String beskrivelse, gateadresse, kapasitet, antallEtasjer;
+    private String beskrivelse, gateadresse, koordinater, antallEtasjer;
 
-    public Hus(String beskrivelse, String gateadresse, String kapasitet, String antallEtasjer) {
+    public Hus(){}
+
+    public Hus(String beskrivelse, String gateadresse, String koordinater, String antallEtasjer) {
         this.beskrivelse = beskrivelse;
         this.gateadresse = gateadresse;
-        this.kapasitet = kapasitet;
+        this.koordinater = koordinater;
         this.antallEtasjer = antallEtasjer;
     }
 
@@ -26,12 +28,12 @@ public class Hus {
         this.gateadresse = gateadresse;
     }
 
-    public String getKapasitet() {
-        return kapasitet;
+    public String getKoordinater() {
+        return koordinater;
     }
 
-    public void setKapasitet(String kapasitet) {
-        this.kapasitet = kapasitet;
+    public void setKoordinater(String kapasitet) {
+        this.koordinater = kapasitet;
     }
 
     public String getAntallEtasjer() {

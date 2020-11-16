@@ -1,6 +1,9 @@
 package com.example.mappe;
 
 import android.os.AsyncTask;
+import android.provider.Settings;
+import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,9 +13,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class HusJSON extends AsyncTask<String, Void,String> {
     JSONObject jsonObject;
+    ArrayList<Hus> husArrayList = new ArrayList<>();
+    Hus etHus = new Hus();
     @Override
     protected String doInBackground(String... urls) {
         String retur = "";
@@ -55,7 +61,12 @@ public class HusJSON extends AsyncTask<String, Void,String> {
                                 String antalletasjer= jsonobject.getString("antalletasjer");
                                 retur = retur + beskrivelse +" "+gateadresse +" "+koordinater +
                                         " "+antalletasjer +"\n";
+                                etHus = new Hus(beskrivelse, gateadresse, koordinater, antalletasjer);
+                                husArrayList.add(etHus);
                         System.out.println("ccccccc "+retur );
+                        String size = "";
+                        size+=husArrayList.size();
+                        Log.i("minapp",size);
                     }
                     return retur;
                 } catch(JSONException e) {
