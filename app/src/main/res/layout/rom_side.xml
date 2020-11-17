@@ -24,6 +24,14 @@
             android:layout_weight="1"
             android:layout_marginBottom="5dp">
         </Button>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="LagReservsjon"
+            android:text="Reserver rom"
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp">
+        </Button>
     </LinearLayout>
 
 </LinearLayout>

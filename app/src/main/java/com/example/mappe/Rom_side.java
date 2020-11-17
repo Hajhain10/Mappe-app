@@ -6,11 +6,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,10 +24,12 @@ import java.util.List;
 public class Rom_side extends AppCompatActivity {
     ListView lv;
     List<String> liste = new ArrayList<>();
+    String id = "";
+    String idhus="";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rom_side);
-        //initaliserer
+        idhus = getIntent().getStringExtra("hus_id");
         lv = (ListView)findViewById(R.id.personer);
         RomJSON task = new RomJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romout.php"});
@@ -42,10 +42,20 @@ public class Rom_side extends AppCompatActivity {
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                    String trakk = adapter.getItem(i);
+                    String[] lb = trakk.split(" ");
+                    id = lb[0];
+                    System.out.println("mmmmm "+id+","+idhus);
                 }
             });
         }
+
+    public void LagReservsjon(View view) {
+        Toast.makeText(this,"",
+                Toast.LENGTH_SHORT).show();
+        //BYTT SIDE OG SEND MED HUSID OG ROMID
+    }
+
     protected class RomJSON extends AsyncTask<String, Void,ArrayList<String>> {
         JSONObject jsonObject;
         ArrayList<String> ny = new ArrayList<>();
@@ -73,16 +83,18 @@ public class Rom_side extends AppCompatActivity {
                         for (int i = 0; i < mat.length(); i++) {
                             JSONObject jsonobject= mat.getJSONObject(i);
 
-                            int romnummer = jsonobject.getInt("romnummer");
                             int hus_id= jsonobject.getInt("hus_id");
-                            String beskrivelse= jsonobject.getString("beskrivelse");
-                            String kapasitet= jsonobject.getString("kapasitet");
-                            String etasjenr= jsonobject.getString("etasjenr");
+                            if(idhus.equals(String.valueOf(hus_id))) {
+                                int romnummer = jsonobject.getInt("romnummer");
+                                String beskrivelse= jsonobject.getString("beskrivelse");
+                                String kapasitet= jsonobject.getString("kapasitet");
+                                String etasjenr= jsonobject.getString("etasjenr");
 
-                            retur =  romnummer +" "+hus_id +" "+beskrivelse+" "+kapasitet +" "+etasjenr +"\n";
+                                retur =  "romnummer "+romnummer +" "+hus_id +" "+beskrivelse+" "+kapasitet +" "+etasjenr +"\n";
 
-                            rom = new Rom(romnummer,hus_id,beskrivelse,kapasitet,etasjenr);
-                            ny.add(retur);
+                                rom = new Rom(romnummer,hus_id,beskrivelse,kapasitet,etasjenr);
+                                ny.add(retur);
+                            }
                             System.out.println("ccccccc "+retur );
                         }
                         return ny;

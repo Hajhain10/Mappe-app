@@ -34,6 +34,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         OnMapReadyCallback, GoogleMap.OnMapClickListener {
     protected GoogleMap nMap;
     protected Marker marker;
+    String id="";
    // public ArrayList<Hus>husliste = new ArrayList<>();
     Button b;
     Button a;
@@ -74,7 +75,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
     }
     public boolean onMarkerClick(final Marker marker) {
         b.setVisibility(View.VISIBLE);
-        String clickCount = marker.getSnippet();
+        id = marker.getSnippet();
         Toast.makeText(this,"Klikk <lag rom> for å lage rom i "+marker.getTitle(),
                 Toast.LENGTH_SHORT).show();
         return false;
@@ -155,6 +156,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
 
     public void tilRom(View view) {
         Intent i = new Intent(this,Rom_side.class);
+       i.putExtra("hus_id",id);
         startActivity(i);
         //sender også med id nummer for huset.
     }
@@ -185,15 +187,16 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
                         JSONArray mat = new JSONArray(output);
                         for (int i = 0; i < mat.length(); i++) {
                             JSONObject jsonobject= mat.getJSONObject(i);
+                            int id = jsonobject.getInt("id");
                             String beskrivelse = jsonobject.getString("beskrivelse");
                             String gateadresse= jsonobject.getString("gateadresse");
                             String koordinater= jsonobject.getString("koordinater");
                             String antalletasjer= jsonobject.getString("antalletasjer");
-                            retur = retur + beskrivelse +" "+gateadresse +" "+koordinater +
+                            retur = retur +id + beskrivelse +" "+gateadresse +" "+koordinater +
                                     " "+antalletasjer +"\n";
 
 
-                            etHus = new Hus(beskrivelse, gateadresse, koordinater, antalletasjer);
+                            etHus = new Hus(id,beskrivelse, gateadresse, koordinater, antalletasjer);
                             ny.add(etHus);
                             System.out.println("ccccccc "+retur );
                         }
@@ -213,8 +216,9 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
            for(int i= 0; i<ss.size();i++){
                String[] latlng = ss.get(i).getKoordinater().split(",");
                LatLng pos = new LatLng(Double.parseDouble(latlng[0]),Double.parseDouble(latlng[1]));
+
                nMap.addMarker(new MarkerOptions().position(pos).title(ss.get(i).getGateadresse())
-                       .snippet(ss.get(i).getBeskrivelse()+"|"+ss.get(i).getAntallEtasjer()));
+                       .snippet(String.valueOf(ss.get(i).getId())));
            }
             System.out.println("jaaa "+ss.size()+ss);
         }
