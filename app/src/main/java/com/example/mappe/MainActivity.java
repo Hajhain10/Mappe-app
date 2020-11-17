@@ -55,8 +55,6 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         mapFragment.getMapAsync(this);
         HuskJSON task = new HuskJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/husout.php"});
-
-
     }
 
     @Override
@@ -222,6 +220,12 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
            }
             System.out.println("jaaa "+ss.size()+ss);
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        HuskJSON task = new HuskJSON();
+        task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/husout.php"});
     }
 }

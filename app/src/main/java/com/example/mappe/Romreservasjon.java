@@ -1,11 +1,12 @@
 package com.example.mappe;
 
 public class Romreservasjon {
-    private int romnummer;
+    private int romnummer, husID;
     private String dato, starttid, slutttid;
 
-    public Romreservasjon(int romnummer, String dato, String starttid, String slutttid) {
+    public Romreservasjon(int romnummer, int husID, String dato, String starttid, String slutttid) {
         this.romnummer = romnummer;
+        this.husID = husID;
         this.dato = dato;
         this.starttid = starttid;
         this.slutttid = slutttid;
@@ -17,6 +18,14 @@ public class Romreservasjon {
 
     public void setRomnummer(int romnummer) {
         this.romnummer = romnummer;
+    }
+
+    public int getHusID() {
+        return husID;
+    }
+
+    public void setHusID(int husID) {
+        this.husID = husID;
     }
 
     public String getDato() {
