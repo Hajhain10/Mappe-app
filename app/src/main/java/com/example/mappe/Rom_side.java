@@ -1,5 +1,6 @@
 package com.example.mappe;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -44,16 +45,20 @@ public class Rom_side extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     String trakk = adapter.getItem(i);
                     String[] lb = trakk.split(" ");
-                    id = lb[0];
-                    System.out.println("mmmmm "+id+","+idhus);
+                    id = lb[1];
+                    System.out.println("mmmmm " + id + "," + idhus);
                 }
             });
         }
 
     public void LagReservsjon(View view) {
-        Toast.makeText(this,"",
-                Toast.LENGTH_SHORT).show();
+       Intent i = new Intent(this, Reservasjon.class);
+       startActivity(i);
         //BYTT SIDE OG SEND MED HUSID OG ROMID
+    }
+
+    public void leggInnNyttrom(View view) {
+
     }
 
     protected class RomJSON extends AsyncTask<String, Void,ArrayList<String>> {

@@ -4,6 +4,19 @@ public class Romreservasjon {
     private int romnummer, husID;
     private String dato, starttid, slutttid;
 
+    public Romreservasjon(){}
+
+    @Override
+    public String toString() {
+        return "Romreservasjon{" +
+                "romnummer=" + romnummer +
+                ", husID=" + husID +
+                ", dato='" + dato + '\'' +
+                ", starttid='" + starttid + '\'' +
+                ", slutttid='" + slutttid + '\'' +
+                '}';
+    }
+
     public Romreservasjon(int romnummer, int husID, String dato, String starttid, String slutttid) {
         this.romnummer = romnummer;
         this.husID = husID;
