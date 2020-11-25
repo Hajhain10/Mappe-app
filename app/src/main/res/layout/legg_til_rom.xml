@@ -17,6 +17,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:hint="Romnummer"
+            android:inputType="number"
             android:id="@+id/romnummer"
             ></EditText>
         <TextView
@@ -30,6 +31,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:hint="Etasje Nr"
+            android:inputType="number"
             android:id="@+id/etasje_nr">
         </EditText>
         <EditText
@@ -37,6 +39,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:hint="Kapasitet"
+            android:inputType="number"
             android:id="@+id/kapasitet">
         </EditText>
         <EditText

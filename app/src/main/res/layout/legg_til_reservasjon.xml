@@ -4,49 +4,111 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="2">
-
+    android:weightSum="10">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="9"
+        android:weightSum="11"
         android:orientation="vertical"
-        android:weightSum="6">
-        <TextView
+        android:gravity="center">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:hint="Hus"
-            android:id="@+id/hus"
-            ></TextView>
-        <TextView
+            android:layout_weight="2"
+            android:weightSum="3"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Hus"
+                android:gravity="center"
+                android:textColor="#000"
+                android:id="@+id/husBes"
+                ></TextView>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:id="@+id/hus"
+                ></TextView>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:hint="Romnummer"
-            android:id="@+id/romnummer"
-            ></TextView>
-        <TextView
+            android:layout_weight="2"
+            android:weightSum="3"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Romnummer"
+                android:gravity="center"
+                android:textColor="#000"
+                android:id="@+id/romBes"
+                ></TextView>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:id="@+id/romnummer"
+                ></TextView>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:inputType="date"
-            android:hint="Dato"
-            android:id="@+id/dato">
-        </TextView>
-        <TextView
+            android:layout_weight="2"
+            android:weightSum="3"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Dato"
+                android:gravity="center"
+                android:textColor="#000"
+                android:id="@+id/datoBes"
+                ></TextView>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:inputType="date"
+                android:id="@+id/dato">
+            </TextView>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:hint="Fra"
-            android:id="@+id/tid">
-        </TextView>
+            android:layout_weight="2"
+            android:weightSum="3"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Reserveringstid"
+                android:gravity="center"
+                android:textColor="#000"
+                android:id="@+id/tidBes"
+                ></TextView>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:id="@+id/tid">
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Lagre"
-            android:onClick="lagNyttHus">
+            android:onClick="lagNyttReservasjon">
         </Button>
-    </LinearLayout>
 </LinearLayout>

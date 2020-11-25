@@ -49,11 +49,19 @@ public class Reservasjon extends AppCompatActivity {
         idrom=getIntent().getStringExtra("idrom");
         husnavn = getIntent().getStringExtra("husnavn");
 
-        skrivinn.setText(datoen);liste.add("13.00 - 13.30");liste.add("13.30 - 14.00");
-        liste.add("14.00 - 14.30");liste.add("14.30 - 15.00");liste.add("15.00 - 15.30");
-        liste.add("15.30 - 16.00");liste.add("16.00 - 16.30");
-        liste.add("16.30 - 17.00");liste.add("17.00 - 17.30");
-        liste.add("17.30 - 18.00");liste.add("18.00 - 18.30");liste.add("18.30 - 19.00");
+        skrivinn.setText(datoen);
+        liste.add("13.00 - 13.30");
+        liste.add("13.30 - 14.00");
+        liste.add("14.00 - 14.30");
+        liste.add("14.30 - 15.00");
+        liste.add("15.00 - 15.30");
+        liste.add("15.30 - 16.00");
+        liste.add("16.00 - 16.30");
+        liste.add("16.30 - 17.00");
+        liste.add("17.00 - 17.30");
+        liste.add("17.30 - 18.00");
+        liste.add("18.00 - 18.30");
+        liste.add("18.30 - 19.00");
         liste.add("19.00 - 19.30");
         HuskJSON jsson = new HuskJSON();
         jsson.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romreservasjonout.php"});

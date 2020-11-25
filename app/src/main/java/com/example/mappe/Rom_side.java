@@ -73,7 +73,18 @@ public class Rom_side extends AppCompatActivity {
     }
 
     public void leggInnNyttrom(View view) {
-
+        if (!id.equals("")) {
+            Intent i = new Intent(this, LeggtilRom.class);
+            i.putExtra("idhus", idhus);
+            i.putExtra("idrom", id);
+            i.putExtra("husnavn", husnavn);
+            i.putExtra("romnavn", romnavn);
+            startActivity(i);
+            //BYTT SIDE OG SEND MED HUSID OG ROMID
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(), "Vennligst velg et rom", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     protected class RomJSON extends AsyncTask<String, Void,ArrayList<String>> {
