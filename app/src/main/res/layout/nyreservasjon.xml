@@ -15,6 +15,12 @@
         android:layout_height="wrap_content"
         android:text="oppdater"
         android:onClick="oppdaterlisten"></Button>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lagre"
+        android:id="@+id/lagre"
+        android:onClick="klargjørliste"></Button>
 
     <TextView
         android:layout_width="match_parent"

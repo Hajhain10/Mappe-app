@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,13 +26,17 @@ import java.util.List;
 public class Rom_side extends AppCompatActivity {
     ListView lv;
     List<String> liste = new ArrayList<>();
-    String id = "";
-    String idhus="";
+    String id, romnavn = "";
+    String idhus, husnavn="";
+    Button rom;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rom_side);
         idhus = getIntent().getStringExtra("hus_id");
+        husnavn = getIntent().getStringExtra("husnavn");
         lv = (ListView)findViewById(R.id.personer);
+        rom = (Button) findViewById(R.id.reserverRom);
+        rom.setVisibility(View.GONE);
         RomJSON task = new RomJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romout.php"});
     }
@@ -46,15 +51,25 @@ public class Rom_side extends AppCompatActivity {
                     String trakk = adapter.getItem(i);
                     String[] lb = trakk.split(" ");
                     id = lb[1];
+                    rom.setVisibility(View.VISIBLE);
                     System.out.println("mmmmm " + id + "," + idhus);
                 }
             });
         }
 
     public void LagReservsjon(View view) {
-       Intent i = new Intent(this, Reservasjon.class);
-       startActivity(i);
-        //BYTT SIDE OG SEND MED HUSID OG ROMID
+        if (!id.equals("")) {
+            Intent i = new Intent(this, Reservasjon.class);
+            i.putExtra("idhus", idhus);
+            i.putExtra("idrom", id);
+            i.putExtra("husnavn", husnavn);
+            i.putExtra("romnavn", romnavn);
+            startActivity(i);
+            //BYTT SIDE OG SEND MED HUSID OG ROMID
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(), "Vennligst velg et rom", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     public void leggInnNyttrom(View view) {

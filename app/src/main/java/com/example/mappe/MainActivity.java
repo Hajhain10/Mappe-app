@@ -34,7 +34,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         OnMapReadyCallback, GoogleMap.OnMapClickListener {
     protected GoogleMap nMap;
     protected Marker marker;
-    String id="";
+    String id,husnavn="";
    // public ArrayList<Hus>husliste = new ArrayList<>();
     Button b;
     Button a;
@@ -74,6 +74,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
     public boolean onMarkerClick(final Marker marker) {
         b.setVisibility(View.VISIBLE);
         id = marker.getSnippet();
+        husnavn = marker.getTitle();
         Toast.makeText(this,"Klikk <lag rom> for å lage rom i "+marker.getTitle(),
                 Toast.LENGTH_SHORT).show();
         return false;
@@ -155,6 +156,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
     public void tilRom(View view) {
         Intent i = new Intent(this,Rom_side.class);
        i.putExtra("hus_id",id);
+       i.putExtra("husnavn",husnavn);
         startActivity(i);
         //sender også med id nummer for huset.
     }

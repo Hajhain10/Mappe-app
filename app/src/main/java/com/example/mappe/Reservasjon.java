@@ -3,6 +3,7 @@ package com.example.mappe;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,24 +23,32 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 public class Reservasjon extends AppCompatActivity {
     TextView textView;
     EditText skrivinn;
+    String idhus,idrom,husnavn="";
     ListView lv;
     ArrayList<String> liste = new ArrayList<>();
     String datoen="20.11.20";
+    ArrayList<Integer> valgtetider = new ArrayList<>();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nyreservasjon);
         lv = (ListView)findViewById(R.id.tider);
         textView = (TextView) findViewById(R.id.prøv);
         skrivinn = (EditText) findViewById(R.id.dato);
+        idhus = getIntent().getStringExtra("idhus");
+        idrom=getIntent().getStringExtra("idrom");
+        husnavn = getIntent().getStringExtra("husnavn");
+
         skrivinn.setText(datoen);liste.add("13.00 - 13.30");liste.add("13.30 - 14.00");
         liste.add("14.00 - 14.30");liste.add("14.30 - 15.00");liste.add("15.00 - 15.30");
         liste.add("15.30 - 16.00");liste.add("16.00 - 16.30");
@@ -54,14 +63,25 @@ public class Reservasjon extends AppCompatActivity {
     protected void setListe(ArrayList<String> listen){
         //listen som viser arrayadapterens verdier
         liste = listen;
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, liste);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice,liste);
         lv.setAdapter(adapter);
+        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                long trakk = adapter.getItemId(i);
+                if(lv.isItemChecked(i)){
+                lv.setItemChecked(i,true);
+                valgtetider.add(i);
 
+            }else {
+                    lv.setItemChecked(i, false);
+                   valgtetider.remove(valgtetider.indexOf(i));
+                }
+                System.out.println("tider som er valngt "+ Arrays.toString(valgtetider.toArray()));
             }
         });
+
     }
 
     public void oppdaterlisten(View view) {
@@ -73,6 +93,36 @@ public class Reservasjon extends AppCompatActivity {
         liste.add("17.30 - 18.00");liste.add("18.00 - 18.30");liste.add("18.30 - 19.00");
         HuskJSON jsson = new HuskJSON();
         jsson.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romreservasjonout.php"});
+    }
+
+    public void klargjørliste(View view) {
+        System.out.println("tider "+Arrays.toString(valgtetider.toArray()));
+        String tid = lagnyetider();
+        Intent i = new Intent(this,ReserverRom.class);
+        i.putExtra("tider",tid);
+        i.putExtra("idhus",idhus);
+        i.putExtra("idrom",idrom);
+        i.putExtra("dato",datoen);
+        i.putExtra("husnavn",husnavn);
+        startActivity(i);
+    }
+
+    private String lagnyetider() {
+        Collections.sort(valgtetider);
+        StringBuilder ut = new StringBuilder();
+        ut.append(liste.get(valgtetider.get(0)).substring(0,5));
+        int k = 0;
+        for(int i = 0; i<valgtetider.size()-1;i++){
+           // k = valgtetider.get(i);
+            //System.out.println("oooo"+liste.get(valgtetider.get(i)).substring(8)+ "...."+liste.get(valgtetider.get(i+1)).substring(0,5));
+            if(!liste.get(valgtetider.get(i)).substring(8).equals(liste.get(valgtetider.get(i+1)).substring(0,5))){
+                ut.append(" "+liste.get(valgtetider.get(i)).substring(8)+",");
+                ut.append(liste.get(valgtetider.get(i+1)).substring(0,5));
+            }
+        }
+        ut.append(" "+liste.get(valgtetider.get(valgtetider.size()-1)).substring(8));
+        System.out.println("oooo"+ut.toString());
+        return ut.toString();
     }
 
     protected class HuskJSON extends AsyncTask<String, Void, ArrayList<String>> {
