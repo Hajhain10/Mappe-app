@@ -44,6 +44,7 @@
         <activity android:name=".ReserverRom" android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".Rominfo" android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".LeggtilRom" android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".Husinfo" android:parentActivityName=".MainActivity"></activity>
     </application>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>

@@ -40,6 +40,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
     Button b;
     Button a;
     Button c;
+    Button husinfo;
     double latitude, longitude = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,8 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         b = (Button) findViewById(R.id.leie);
         a = (Button) findViewById(R.id.nyttsted);
         c = (Button) findViewById(R.id.avbryt);
+        husinfo = (Button) findViewById(R.id.husinfo);
+        husinfo.setVisibility(View.GONE);
         c.setVisibility(View.GONE);
         b.setVisibility(View.GONE);
 
@@ -74,6 +77,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
     }
     public boolean onMarkerClick(final Marker marker) {
         b.setVisibility(View.VISIBLE);
+        husinfo.setVisibility(View.VISIBLE);
         String[] liste = marker.getSnippet().split(" ");
         id = liste[0];
         antalletasjer = liste[1];
@@ -160,6 +164,12 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
        i.putExtra("antalletasjer",antalletasjer);
         startActivity(i);
         //sender også med id nummer for huset.
+    }
+
+    public void visHusinfo(View view) {
+        Intent i = new Intent(this, Husinfo.class);
+        i.putExtra("idhus",id);
+        startActivity(i);
     }
 
     protected class HuskJSON extends AsyncTask<String, Void,ArrayList<Hus>> {
