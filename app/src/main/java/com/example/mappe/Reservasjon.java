@@ -1,5 +1,6 @@
 package com.example.mappe;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -32,24 +35,26 @@ import java.util.Date;
 import java.util.List;
 
 public class Reservasjon extends AppCompatActivity {
-    TextView textView;
-    EditText skrivinn;
+
+    TextView skrivinn;
+    DatePickerDialog velgdato;
     String idhus,idrom,husnavn="";
     ListView lv;
     ArrayList<String> liste = new ArrayList<>();
-    String datoen="20.11.20";
+    String datoen="";
     ArrayList<Integer> valgtetider = new ArrayList<>();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nyreservasjon);
         lv = (ListView)findViewById(R.id.tider);
-        textView = (TextView) findViewById(R.id.prøv);
-        skrivinn = (EditText) findViewById(R.id.dato);
+        skrivinn = (TextView) findViewById(R.id.dato);
         idhus = getIntent().getStringExtra("idhus");
         idrom=getIntent().getStringExtra("idrom");
         husnavn = getIntent().getStringExtra("husnavn");
-
-        skrivinn.setText(datoen);
+        Date idag = new Date();
+        SimpleDateFormat dato = new SimpleDateFormat("dd.MM.yy");
+        datoen = dato.format(idag);
+        skrivinn.setText("Dato valgt "+datoen+", Trykk her for å endre dato");
         liste.add("13.00 - 13.30");
         liste.add("13.30 - 14.00");
         liste.add("14.00 - 14.30");
@@ -92,8 +97,8 @@ public class Reservasjon extends AppCompatActivity {
 
     }
 
-    public void oppdaterlisten(View view) {
-        datoen = skrivinn.getText().toString();
+    public void oppdaterlisten() {
+        //datoen = skrivinn.getText().toString();
         liste.clear();liste.add("13.00 - 13.30");liste.add("13.30 - 14.00");
         liste.add("14.00 - 14.30");liste.add("14.30 - 15.00");liste.add("15.00 - 15.30");
         liste.add("15.30 - 16.00");liste.add("16.00 - 16.30");
@@ -133,6 +138,26 @@ public class Reservasjon extends AppCompatActivity {
         return ut.toString();
     }
 
+    public void datovelger(View view) {
+
+        Calendar kalender = Calendar.getInstance();
+        int dag = kalender.get(Calendar.DAY_OF_MONTH);
+        int maned = kalender.get(Calendar.MONTH);
+        int aar = kalender.get(Calendar.YEAR);
+
+        velgdato = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int aar, int maned, int dag) {
+                        datoen = String.format("%02d",dag)+"."+String.format("%02d",(maned+1))+"."+20;
+                        skrivinn.setText("Dato valgt "+datoen+", Trykk her for å endre dato");
+                        oppdaterlisten();
+                        System.out.println("maaa"+datoen);
+                    }
+                }, aar, maned, dag);
+        velgdato.show();
+    }
+
     protected class HuskJSON extends AsyncTask<String, Void, ArrayList<String>> {
         JSONObject jsonObject;
         ArrayList<Romreservasjon> ny = new ArrayList<>();
@@ -162,10 +187,11 @@ public class Reservasjon extends AppCompatActivity {
                         for (int i = 0; i < mat.length(); i++) {
                             JSONObject jsonobject= mat.getJSONObject(i);
                             String dato= jsonobject.getString("dato");
+                            int romnummer = jsonobject.getInt("romnummer");
+                            int husId = jsonobject.getInt("hus_id");
                             System.out.println("mmmm"+dato);
-                            if (datoen.equals(dato)) {
-                                int romnummer = jsonobject.getInt("romnummer");
-                                int husId = jsonobject.getInt("hus_id");
+                            if (datoen.equals(dato) && String.valueOf(romnummer).equals(idrom)
+                            && String.valueOf(husId).equals(idhus)) {
                                 String starttid= jsonobject.getString("starttid");
                                 String slutttid= jsonobject.getString("slutttid");
                                 tavekktider(starttid,slutttid);
@@ -218,7 +244,6 @@ public class Reservasjon extends AppCompatActivity {
         protected void onPostExecute(ArrayList<String> ss) {
             String ut = "";
             setListe(ss);
-            textView.setText(Arrays.toString(ss.toArray()));
         }
     }
     public void onResume(){
