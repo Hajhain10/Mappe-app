@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class LeggtilRom extends AppCompatActivity {
         beskrivelse = (EditText) findViewById(R.id.beskrivelse);
         kapasitet = (EditText) findViewById(R.id.kapasitet);
         husid = (TextView) findViewById(R.id.hus_id);
+
         //husid.setText(getIntent().getStringExtra("idhus"));
     }
     private class leggTil extends AsyncTask<String, Void,String> {
@@ -60,9 +62,9 @@ public class LeggtilRom extends AppCompatActivity {
         protected void onPostExecute(String ss) { }
     }
 
-    public void lagNyttHus(View view) {
-        if(sjekkInput(romnummer.getText(), beskrivelse.getText(), etasjenr.getText(),
-                kapasitet.getText())){
+    public void lagNyttRom(View view) {
+        if(sjekkInput(romnummer.getText().toString(), beskrivelse.getText().toString(),
+                etasjenr.getText().toString(), kapasitet.getText().toString())){
             String url = "http://student.cs.oslomet.no/~s331409/romin.php/?Romnummer="+
                     romnummer.getText()+"&Hus_id="+husid.getText()+"&Beskrivelse="+
                     beskrivelse.getText()+"&Etasjenr="+etasjenr.getText()+
@@ -75,18 +77,29 @@ public class LeggtilRom extends AppCompatActivity {
         }
     }
 
-    public boolean sjekkInput(Editable romnummer, Editable beskrivelse, Editable etasjenr,
-                              Editable kapasitet){
-        if(romnummer.length() > 0 || romnummer.length() <= 0 || romnummer.equals(0)){
+    public boolean sjekkInput(String romnummer, String beskrivelse, String etasjenr,
+                              String kapasitet){
+        if(romnummer.length() > 3 || romnummer.length() <= 0 || romnummer.equals(0)){
+            Toast toast = Toast.makeText(this, "romnummer", Toast.LENGTH_SHORT);
+            toast.show();
             return false;
         }
-        if(beskrivelse.length() > 100 || romnummer.length() <= 0 || romnummer.equals(0)){
+        if(beskrivelse.length() > 100 || beskrivelse.length() <= 0 ){
+            Toast toast = Toast.makeText(this, "beskrivelse", Toast.LENGTH_SHORT);
+            toast.show();
+            System.out.println("beskrivelse");
             return false;
         }
-        if(etasjenr.length() > 2 || etasjenr.length() <= 0 || romnummer.equals(0)){
+        if(etasjenr.length() > 2 || etasjenr.length() <= 0 || etasjenr.equals(0)){
+            Toast toast = Toast.makeText(this, "etasjenr", Toast.LENGTH_SHORT);
+            toast.show();
+            System.out.println("etasjenr");
             return false;
         }
-        if(kapasitet.length() > 4 || romnummer.length() <= 0 || romnummer.equals(0)){
+        if(kapasitet.length() > 4 || kapasitet.length() <= 0 || kapasitet.equals(0)){
+            Toast toast = Toast.makeText(this, "kapasitet", Toast.LENGTH_SHORT);
+            toast.show();
+            System.out.println("kapasitet");
             return false;
         }
         return true;
