@@ -28,6 +28,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="RomInfo"
+            android:text="Rom info"
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp">
+        </Button>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:onClick="LagReservsjon"
             android:text="Reserver rom"
             android:id="@+id/reserverRom"

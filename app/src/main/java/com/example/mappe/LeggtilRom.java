@@ -20,7 +20,7 @@ public class LeggtilRom extends AppCompatActivity {
     EditText romnummer, etasjenr, beskrivelse, kapasitet;
     TextView husid;
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.legg_til_rom);
         romnummer = (EditText) findViewById(R.id.romnummer);
@@ -28,7 +28,7 @@ public class LeggtilRom extends AppCompatActivity {
         beskrivelse = (EditText) findViewById(R.id.beskrivelse);
         kapasitet = (EditText) findViewById(R.id.kapasitet);
         husid = (TextView) findViewById(R.id.hus_id);
-        husid.setText(getIntent().getStringExtra("idhus"));
+        //husid.setText(getIntent().getStringExtra("idhus"));
     }
     private class leggTil extends AsyncTask<String, Void,String> {
         @Override

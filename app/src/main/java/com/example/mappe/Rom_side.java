@@ -39,6 +39,8 @@ public class Rom_side extends AppCompatActivity {
         rom.setVisibility(View.GONE);
         RomJSON task = new RomJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romout.php"});
+        Toast toast = Toast.makeText(this, id, Toast.LENGTH_SHORT);
+        toast.show();
     }
     protected void setListe(ArrayList<String> listen){
         //listen som viser arrayadapterens verdier
@@ -50,7 +52,7 @@ public class Rom_side extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     String trakk = adapter.getItem(i);
                     String[] lb = trakk.split(" ");
-                    id = lb[1];
+                    id = lb[1].toString();
                     rom.setVisibility(View.VISIBLE);
                     System.out.println("mmmmm " + id + "," + idhus);
                 }
@@ -58,22 +60,24 @@ public class Rom_side extends AppCompatActivity {
         }
 
     public void LagReservsjon(View view) {
-        if (!id.equals("")) {
+        if (id == null) {
+            Toast toast = Toast.makeText(this, "Vennligst trykk på et rom", Toast.LENGTH_SHORT);
+            toast.show();
+            //BYTT SIDE OG SEND MED HUSID OG ROMID
+
+        }else{
             Intent i = new Intent(this, Reservasjon.class);
             i.putExtra("idhus", idhus);
             i.putExtra("idrom", id);
             i.putExtra("husnavn", husnavn);
             i.putExtra("romnavn", romnavn);
             startActivity(i);
-            //BYTT SIDE OG SEND MED HUSID OG ROMID
-        }else{
-            Toast toast = Toast.makeText(getApplicationContext(), "Vennligst velg et rom", Toast.LENGTH_SHORT);
-            toast.show();
+            // Toast toast = Toast.makeText(this, "Vennligst velg et rom", Toast.LENGTH_SHORT);
+            //toast.show();
         }
     }
 
     public void leggInnNyttrom(View view) {
-        if (!id.equals("")) {
             Intent i = new Intent(this, LeggtilRom.class);
             i.putExtra("idhus", idhus);
             i.putExtra("idrom", id);
@@ -81,9 +85,19 @@ public class Rom_side extends AppCompatActivity {
             i.putExtra("romnavn", romnavn);
             startActivity(i);
             //BYTT SIDE OG SEND MED HUSID OG ROMID
-        }else{
-            Toast toast = Toast.makeText(getApplicationContext(), "Vennligst velg et rom", Toast.LENGTH_SHORT);
+    }
+
+    public void RomInfo(View view) {
+        if (id == null) {
+            Toast toast = Toast.makeText(this, "Vennligst trykk på et rom", Toast.LENGTH_SHORT);
             toast.show();
+        }else {
+            Intent i = new Intent(this, Rominfo.class);
+            i.putExtra("romid", id);
+            i.putExtra("husid", idhus);
+            i.putExtra("husnavn", husnavn);
+            startActivity(i);
+            System.out.println("toast");
         }
     }
 
