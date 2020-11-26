@@ -221,4 +221,9 @@ public class Reservasjon extends AppCompatActivity {
             textView.setText(Arrays.toString(ss.toArray()));
         }
     }
+    public void onResume(){
+        super.onResume();
+        HuskJSON task = new HuskJSON();
+        task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romout.php"});
+    }
 }

@@ -101,6 +101,11 @@ public class Rom_side extends AppCompatActivity {
             System.out.println("toast");
         }
     }
+    public void onResume(){
+        super.onResume();
+        RomJSON task = new RomJSON();
+        task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romout.php"});
+    }
 
     protected class RomJSON extends AsyncTask<String, Void,ArrayList<String>> {
         JSONObject jsonObject;
