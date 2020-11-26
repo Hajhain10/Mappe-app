@@ -27,20 +27,20 @@ public class Rom_side extends AppCompatActivity {
     ListView lv;
     List<String> liste = new ArrayList<>();
     String id, romnavn = "";
-    String idhus, husnavn="";
+    String idhus, husnavn, antalletasjer="";
     Button rom;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rom_side);
         idhus = getIntent().getStringExtra("hus_id");
         husnavn = getIntent().getStringExtra("husnavn");
+        antalletasjer = getIntent().getStringExtra("antalletasjer");
         lv = (ListView)findViewById(R.id.personer);
         rom = (Button) findViewById(R.id.reserverRom);
         rom.setVisibility(View.GONE);
         RomJSON task = new RomJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romout.php"});
-        Toast toast = Toast.makeText(this, id, Toast.LENGTH_SHORT);
-        toast.show();
+
     }
     protected void setListe(ArrayList<String> listen){
         //listen som viser arrayadapterens verdier
@@ -83,6 +83,7 @@ public class Rom_side extends AppCompatActivity {
             i.putExtra("idrom", id);
             i.putExtra("husnavn", husnavn);
             i.putExtra("romnavn", romnavn);
+            i.putExtra("antalletasjer",antalletasjer);
             startActivity(i);
             //BYTT SIDE OG SEND MED HUSID OG ROMID
     }

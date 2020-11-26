@@ -20,6 +20,7 @@ import java.net.URL;
 public class LeggtilRom extends AppCompatActivity {
     EditText romnummer, etasjenr, beskrivelse, kapasitet;
     TextView husid;
+    String antalletasjer="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,10 @@ public class LeggtilRom extends AppCompatActivity {
         kapasitet = (EditText) findViewById(R.id.kapasitet);
         husid = (TextView) findViewById(R.id.hus_id);
 
-        //husid.setText(getIntent().getStringExtra("idhus"));
+        husid.setText(getIntent().getStringExtra("idhus"));
+        antalletasjer = getIntent().getStringExtra("antalletasjer");
+        Toast toast = Toast.makeText(this, antalletasjer, Toast.LENGTH_SHORT);
+        toast.show();
     }
     private class leggTil extends AsyncTask<String, Void,String> {
         @Override
