@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ReserverRom extends AppCompatActivity {
+    //initaliserer data
     TextView husid, romid, dato, tid;
     String hus_id="";
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class ReserverRom extends AppCompatActivity {
         romid = (TextView) findViewById(R.id.romnummer);
         dato = (TextView) findViewById(R.id.dato);
         tid = (TextView) findViewById(R.id.tid);
+        //henter data
         hus_id = getIntent().getStringExtra("idhus");
         husid.setText(getIntent().getStringExtra("husnavn"));
         romid.setText(getIntent().getStringExtra("idrom"));
@@ -69,14 +71,13 @@ public class ReserverRom extends AppCompatActivity {
         protected void onPostExecute(String ss) { }
     }
     public void lagNyttReservasjon(View view) {
+        //knapp metode for å legge inn
         System.out.println(hus_id);
         String[] biter = tid.getText().toString().split("\n");
         for(int i = 0; i<biter.length;i++) {
             String[] biter2 = biter[i].split("til");
             String start = biter2[0];
-            System.out.println(start);
             String slutt = biter2[1];
-            System.out.println(start);
             String url = "http://student.cs.oslomet.no/~s331409/romreservasjonin.php/?Romnummer=" + romid.getText() +
                     "&Hus_id=" + hus_id+ "&Dato=" + dato.getText() + "&Starttid="
                     + start.replaceAll(" ", "") +

@@ -1,9 +1,11 @@
 package com.example.mappe;
 
 public class Rom {
+    //initaliserer data
     private int romnummer, husID;
     private String beskrivelse, kapasitet, etasjenr;
 
+    //konstruktør
     public Rom(int romnummer, int husID, String beskrivelse, String kapasitet, String etasjenr) {
         this.romnummer = romnummer;
         this.husID = husID;
@@ -13,6 +15,8 @@ public class Rom {
     }
 
     public Rom(){}
+
+    //get og set metoder for alle
     public int getRomnummer() {
         return romnummer;
     }

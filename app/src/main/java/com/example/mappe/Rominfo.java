@@ -19,24 +19,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Rominfo extends AppCompatActivity {
+    //initaliserer data
     String husid, romid, husnavn = "";
     TextView adresse, romnummeret, kapasitet, beskrivelse, etasjenummer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rominfo);
+        //henter data
         husid = getIntent().getStringExtra("husid");
         romid = getIntent().getStringExtra("romid");
         husnavn = getIntent().getStringExtra("husnavn");
-        Toast.makeText(this,romid + ", "+husid,
-                Toast.LENGTH_SHORT).show();
-        System.out.println("bbbbb"+husid + ","+romid);
         adresse = (TextView) findViewById(R.id.husadresse);
         romnummeret = (TextView) findViewById(R.id.romnummer);
         kapasitet = (TextView) findViewById(R.id.kapasitet);
         beskrivelse = (TextView) findViewById(R.id.beskrivelse);
         etasjenummer = (TextView) findViewById(R.id.etasjer);
 
+        //asynctask med rom
         RomJSON task = new RomJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romout.php"});
     }
@@ -62,9 +62,9 @@ public class Rominfo extends AppCompatActivity {
                     while((s = br.readLine()) != null) { output = output + s; }
                     conn.disconnect();
                     try{
-                        JSONArray mat = new JSONArray(output);
-                        for (int i = 0; i < mat.length(); i++) {
-                            JSONObject jsonobject= mat.getJSONObject(i);
+                        JSONArray romobjekter = new JSONArray(output);
+                        for (int i = 0; i < romobjekter.length(); i++) {
+                            JSONObject jsonobject= romobjekter.getJSONObject(i);
 
                             int hus_id= jsonobject.getInt("hus_id");
                             int romnumer = jsonobject.getInt("romnummer");
@@ -75,17 +75,13 @@ public class Rominfo extends AppCompatActivity {
                             String id = husid+""+romid;
                             System.out.println("bbbb"+id + "og"+nokkel);
 
+                            //dersom primær nøkkelen er lik så henter vi dens info
                             if(id.equals(String.valueOf(nokkel))) {
                                 rom.setBeskrivelse(beskrivels);
-                               // romnummeret.setText(romnumer);
-                               // adresse.setText(husnavn);
-                                System.out.println("ppppp "+romid);
-                                System.out.println("pppp "+kapasit);
                                 rom.setEtasjenr(etasjenr);
                                 rom.setRomnummer(romnumer);
                                 rom.setKapasitet(kapasit);
                             }
-                            System.out.println("ccccccc "+retur );
                         }
                         return rom;
                     } catch(JSONException e) {
@@ -99,6 +95,7 @@ public class Rominfo extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Rom ss) {
+            //setter textviewet sine verdier
             adresse.setText(husnavn);
             romnummeret.setText(String.valueOf(ss.getRomnummer()));
             etasjenummer.setText(ss.getEtasjenr());

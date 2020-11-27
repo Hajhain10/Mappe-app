@@ -32,31 +32,33 @@ import java.util.List;
 
 public class MainActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener,
         OnMapReadyCallback, GoogleMap.OnMapClickListener {
+    //initaliserer verdier som brukes
     protected GoogleMap nMap;
     protected Marker marker;
     String id,husnavn="";
     String antalletasjer="";
-   // public ArrayList<Hus>husliste = new ArrayList<>();
-    Button b;
-    Button a;
-    Button c;
+    Button romknapp;
+    Button nyttsted;
+    Button avbrytknapp;
     Button husinfo;
     double latitude, longitude = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        b = (Button) findViewById(R.id.leie);
-        a = (Button) findViewById(R.id.nyttsted);
-        c = (Button) findViewById(R.id.avbryt);
+        //kobler knapper opp mot xml layouten
+        romknapp = (Button) findViewById(R.id.leie);
+        nyttsted = (Button) findViewById(R.id.nyttsted);
+        avbrytknapp = (Button) findViewById(R.id.avbryt);
         husinfo = (Button) findViewById(R.id.husinfo);
         husinfo.setVisibility(View.GONE);
-        c.setVisibility(View.GONE);
-        b.setVisibility(View.GONE);
+        avbrytknapp.setVisibility(View.GONE);
+        romknapp.setVisibility(View.GONE);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        //asynctask kjøres
         HuskJSON task = new HuskJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/husout.php"});
     }
@@ -64,25 +66,26 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
     @Override
     public void onMapReady(GoogleMap googleMap) {
         nMap = googleMap;
-
-        LatLng sydney = new LatLng(59.9238031,10.7292638);
+        LatLng startsted = new LatLng(59.9238031,10.7292638);
        // LatLng l = new LatLng(59.9241992,10.9560766);
        // nMap.addMarker(new MarkerOptions().position(l).title("Gammwlt hus").snippet("sniper deg 2 ganger"));
-       // nMap.addMarker(new MarkerOptions().position(sydney).title("OSLO").snippet("snipped"));
+       // nMap.addMarker(new MarkerOptions().position(startsted).title("OSLO").snippet("snipped"));
         float zoom = 14.0f;
-        nMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,zoom));
+        nMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startsted,zoom));
 
         nMap.setOnMarkerClickListener(this);
         //nMap.setOnMapClickListener(this);
     }
     public boolean onMarkerClick(final Marker marker) {
-        b.setVisibility(View.VISIBLE);
+        //dersom markør blir trykket så kommer disse
+        romknapp.setVisibility(View.VISIBLE);
         husinfo.setVisibility(View.VISIBLE);
+        //henter verdier fra snippet som ble lagra av onExecute i asynctask
         String[] liste = marker.getSnippet().split(" ");
         id = liste[0];
         antalletasjer = liste[1];
         husnavn = marker.getTitle();
-        Toast.makeText(this,"Klikk <lag rom> for å lage rom i "+marker.getTitle(),
+        Toast.makeText(this,"Klikk <rom> for å lage rom i "+marker.getTitle(),
                 Toast.LENGTH_SHORT).show();
         return false;
     }
@@ -91,6 +94,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         if (marker!=null){
             marker.remove();
         }
+        //dersom man skal lage et nytt sted
         MarkerOptions m = new MarkerOptions();
         m.position(latLng);
         m.title("den nye");
@@ -98,7 +102,6 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         latitude = marker.getPosition().latitude;
         longitude = marker.getPosition().longitude;
         String send = marker.getPosition().latitude +","+ marker.getPosition().longitude;
-        System.out.println("aaaaaaaaaa  "+getLocationFromnumber(send));
     }
     public String getLocationFromAddress(String saddress){
         Geocoder coder = new Geocoder(this);
@@ -137,15 +140,23 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
     }
 
     public void nyttSted(View view) {
-        if(a.getText().toString().equals("trykk her når ferdig")){
+        //knappen legg til nytt sted
+        //dersom alt er riktig så sendes du videre
+        if(longitude ==0){
+            Toast.makeText(this,
+                    "velg på kartet der du vil legge til et nytt hus",
+                    Toast.LENGTH_SHORT).show();
+        }
+        else if(nyttsted.getText().toString().equals("trykk her når ferdig")){
             Intent i = new Intent(this,LeggtilHus.class);
             i.putExtra("lat",latitude);
             i.putExtra("long",longitude);
             startActivity(i);
+            recreate();
         }
-        c.setVisibility(View.VISIBLE);
-        b.setVisibility(View.GONE);
-        a.setText("trykk her når ferdig");
+        avbrytknapp.setVisibility(View.VISIBLE);
+        romknapp.setVisibility(View.GONE);
+        nyttsted.setText("trykk her når ferdig");
         Toast.makeText(this,
                 "velg på kartet der du vil legge til et nytt hus",
                 Toast.LENGTH_SHORT).show();
@@ -154,10 +165,12 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
     }
 
     public void avbryt(View view) {
+        //dersom man avbryter så starter vi siden på nytt
        recreate();
     }
 
     public void tilRom(View view) {
+        //bytter til rom siden
         Intent i = new Intent(this,Rom_side.class);
        i.putExtra("hus_id",id);
        i.putExtra("husnavn",husnavn);
@@ -167,6 +180,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
     }
 
     public void visHusinfo(View view) {
+        //viser hus info
         Intent i = new Intent(this, Husinfo.class);
         i.putExtra("idhus",id);
         startActivity(i);
@@ -195,9 +209,9 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
                     while((s = br.readLine()) != null) { output = output + s; }
                     conn.disconnect();
                     try{
-                        JSONArray mat = new JSONArray(output);
-                        for (int i = 0; i < mat.length(); i++) {
-                            JSONObject jsonobject= mat.getJSONObject(i);
+                        JSONArray husobjekter = new JSONArray(output);
+                        for (int i = 0; i < husobjekter.length(); i++) {
+                            JSONObject jsonobject= husobjekter.getJSONObject(i);
                             int id = jsonobject.getInt("id");
                             String beskrivelse = jsonobject.getString("beskrivelse");
                             String gateadresse= jsonobject.getString("gateadresse");
@@ -206,10 +220,8 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
                             retur = retur +id + beskrivelse +" "+gateadresse +" "+koordinater +
                                     " "+antalletasjer +"\n";
 
-
                             etHus = new Hus(id,beskrivelse, gateadresse, koordinater, antalletasjer);
                             ny.add(etHus);
-                            System.out.println("ccccccc "+retur );
                         }
                         return ny;
                     } catch(JSONException e) {
@@ -224,6 +236,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         }
         @Override
         protected void onPostExecute(ArrayList<Hus> ss) {
+            //etter å ha fått inn alle objektene
            for(int i= 0; i<ss.size();i++){
                String[] latlng = ss.get(i).getKoordinater().split(",");
                LatLng pos = new LatLng(Double.parseDouble(latlng[0]),Double.parseDouble(latlng[1]));
@@ -231,7 +244,6 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
                nMap.addMarker(new MarkerOptions().position(pos).title(ss.get(i).getGateadresse())
                        .snippet(String.valueOf(ss.get(i).getId())+" "+ss.get(i).getAntallEtasjer()));
            }
-            System.out.println("jaaa "+ss.size()+ss);
         }
     }
 

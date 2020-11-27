@@ -20,17 +20,20 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Husinfo extends AppCompatActivity {
+    //initaliserer
     TextView adresse, koordinater, etasjer, beskrivelse;
     String husid="";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.husinfo);
+        //setter sammen layout med data
         adresse = (TextView) findViewById(R.id.husadresse);
         koordinater = (TextView) findViewById(R.id.koordianter);
         etasjer = (TextView) findViewById(R.id.etasjer);
         beskrivelse = (TextView) findViewById(R.id.beskrivelse);
         husid = getIntent().getStringExtra("idhus");
 
+        // starter asynctask for å finne hus
         HuskJSON task = new HuskJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/husout.php"});
     }
@@ -56,9 +59,9 @@ public class Husinfo extends AppCompatActivity {
                     while((s = br.readLine()) != null) { output = output + s; }
                     conn.disconnect();
                     try{
-                        JSONArray mat = new JSONArray(output);
-                        for (int i = 0; i < mat.length(); i++) {
-                            JSONObject jsonobject= mat.getJSONObject(i);
+                        JSONArray hus = new JSONArray(output);
+                        for (int i = 0; i < hus.length(); i++) {
+                            JSONObject jsonobject= hus.getJSONObject(i);
                             int id = jsonobject.getInt("id");
                             String beskrivelse = jsonobject.getString("beskrivelse");
                             String gateadresse= jsonobject.getString("gateadresse");
@@ -67,12 +70,12 @@ public class Husinfo extends AppCompatActivity {
                             retur = retur +id + beskrivelse +" "+gateadresse +" "+koordinater +
                                     " "+antalletasjer +"\n";
                             if(String.valueOf(id).equals(husid)){
+                                //dersom vi finner huset returnerer vi det
+                                //primær nøkkel er id
                                 etHus = new Hus(id,beskrivelse, gateadresse, koordinater, antalletasjer);
                                 return etHus;
                             }
 
-
-                            System.out.println("ccccccc "+retur );
                         }
                         return etHus;
                     } catch(JSONException e) {
@@ -87,6 +90,7 @@ public class Husinfo extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Hus ss) {
+            //setter verdiene i textviewet
            adresse.setText(ss.getGateadresse());
            koordinater.setText(ss.getKoordinater());
            etasjer.setText(ss.getAntallEtasjer());

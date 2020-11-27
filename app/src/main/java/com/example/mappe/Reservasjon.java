@@ -35,7 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Reservasjon extends AppCompatActivity {
-
+    //initasliserer data
     TextView skrivinn;
     DatePickerDialog velgdato;
     String idhus,idrom,husnavn="";
@@ -48,13 +48,16 @@ public class Reservasjon extends AppCompatActivity {
         setContentView(R.layout.nyreservasjon);
         lv = (ListView)findViewById(R.id.tider);
         skrivinn = (TextView) findViewById(R.id.dato);
+        //henter data
         idhus = getIntent().getStringExtra("idhus");
         idrom=getIntent().getStringExtra("idrom");
         husnavn = getIntent().getStringExtra("husnavn");
+        //henter dato for i dag
         Date idag = new Date();
         SimpleDateFormat dato = new SimpleDateFormat("dd.MM.yy");
         datoen = dato.format(idag);
         skrivinn.setText("Dato valgt "+datoen+", Trykk her for å endre dato");
+        //datoene som skal være tilgjengelige
         liste.add("13.00 - 13.30");
         liste.add("13.30 - 14.00");
         liste.add("14.00 - 14.30");
@@ -68,13 +71,14 @@ public class Reservasjon extends AppCompatActivity {
         liste.add("18.00 - 18.30");
         liste.add("18.30 - 19.00");
         liste.add("19.00 - 19.30");
+        //henter tider som ikke er ledige
         HuskJSON jsson = new HuskJSON();
         jsson.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romreservasjonout.php"});
 
        // double latitude = getIntent().getExtras().getDouble("lat",0);
     }
     protected void setListe(ArrayList<String> listen){
-        //listen som viser arrayadapterens verdier
+        //liste som oppdaterer listen
         liste = listen;
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice,liste);
         lv.setAdapter(adapter);
@@ -98,7 +102,7 @@ public class Reservasjon extends AppCompatActivity {
     }
 
     public void oppdaterlisten() {
-        //datoen = skrivinn.getText().toString();
+        //etter at datoen blir satt så oppdateres listen ved hjelp av asynctask
         liste.clear();liste.add("13.00 - 13.30");liste.add("13.30 - 14.00");
         liste.add("14.00 - 14.30");liste.add("14.30 - 15.00");liste.add("15.00 - 15.30");
         liste.add("15.30 - 16.00");liste.add("16.00 - 16.30");
@@ -109,7 +113,7 @@ public class Reservasjon extends AppCompatActivity {
     }
 
     public void klargjørliste(View view) {
-        System.out.println("tider "+Arrays.toString(valgtetider.toArray()));
+        //sender over data til neste side
         String tid = lagnyetider();
         Intent i = new Intent(this,ReserverRom.class);
         i.putExtra("tider",tid);
@@ -121,6 +125,7 @@ public class Reservasjon extends AppCompatActivity {
     }
 
     private String lagnyetider() {
+        //gjør om tider som er valgt for legge inn så få ganger som mulig
         Collections.sort(valgtetider);
         StringBuilder ut = new StringBuilder();
         ut.append(liste.get(valgtetider.get(0)).substring(0,5));
@@ -139,7 +144,7 @@ public class Reservasjon extends AppCompatActivity {
     }
 
     public void datovelger(View view) {
-
+        //når tekstview blir trykket på og man skal velge dato
         Calendar kalender = Calendar.getInstance();
         int dag = kalender.get(Calendar.DAY_OF_MONTH);
         int maned = kalender.get(Calendar.MONTH);
@@ -152,7 +157,6 @@ public class Reservasjon extends AppCompatActivity {
                         datoen = String.format("%02d",dag)+"."+String.format("%02d",(maned+1))+"."+20;
                         skrivinn.setText("Dato valgt "+datoen+", Trykk her for å endre dato");
                         oppdaterlisten();
-                        System.out.println("maaa"+datoen);
                     }
                 }, aar, maned, dag);
         velgdato.show();
@@ -164,7 +168,6 @@ public class Reservasjon extends AppCompatActivity {
         Romreservasjon etHus = new Romreservasjon();
         @Override
         protected ArrayList<String> doInBackground(String... urls) {
-            String retur = "";
             String s = "";
             String output = "";
             for (String url : urls) {
@@ -183,22 +186,20 @@ public class Reservasjon extends AppCompatActivity {
                     }
                     conn.disconnect();
                     try {
-                        JSONArray mat = new JSONArray(output);
-                        for (int i = 0; i < mat.length(); i++) {
-                            JSONObject jsonobject= mat.getJSONObject(i);
+                        //går igjennom rom for å finne tider som er opptatt
+                        JSONArray romreservasjon = new JSONArray(output);
+                        for (int i = 0; i < romreservasjon.length(); i++) {
+                            JSONObject jsonobject= romreservasjon.getJSONObject(i);
                             String dato= jsonobject.getString("dato");
                             int romnummer = jsonobject.getInt("romnummer");
                             int husId = jsonobject.getInt("hus_id");
                             System.out.println("mmmm"+dato);
+                            //dersom dato og rom  er likt tar vi vekk tider som den er bestilt på
                             if (datoen.equals(dato) && String.valueOf(romnummer).equals(idrom)
                             && String.valueOf(husId).equals(idhus)) {
                                 String starttid= jsonobject.getString("starttid");
                                 String slutttid= jsonobject.getString("slutttid");
                                 tavekktider(starttid,slutttid);
-                               // retur = retur + romnummer +" "+dato +" "+starttid +" "+slutttid +"\n";
-                                //etHus = new Romreservasjon(romnummer,husId,dato,starttid,slutttid);
-                                //ny.add(etHus);
-                                //System.out.println("ccccccc " + retur);
                             }
                         }
                         return liste;
@@ -212,7 +213,8 @@ public class Reservasjon extends AppCompatActivity {
             }
             return null;
         }
-
+        //metode for å ta vekk tider som er opptatt
+        //Gir du den to tider vil den ta vekk alt i mellom
         private void tavekktider(String startid, String slutttid) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(startid);
@@ -220,6 +222,7 @@ public class Reservasjon extends AppCompatActivity {
             k.set(Calendar.MINUTE, Integer.parseInt(stringBuilder.subSequence(3,5).toString()));
             k.set(Calendar.HOUR_OF_DAY,Integer.parseInt(stringBuilder.subSequence(0,2).toString()));
             String tiden =startid;
+            //fikk 13.0 istedenfor 13.00 i blant så legger til en 0
             if (tiden.length()==4){tiden+="0";}
             int indeks=-1;
             for (int i = 0; i<liste.size();i++){
@@ -228,7 +231,6 @@ public class Reservasjon extends AppCompatActivity {
                     System.out.println("mmm nullte indeks"+indeks);
                 }
             }
-            System.out.println("mmm"+slutttid);
             while (!tiden.equals(slutttid)){
                 System.out.println("mmm"+tiden+ tiden.length());
                 System.out.println("indeks"+indeks);
@@ -243,11 +245,13 @@ public class Reservasjon extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<String> ss) {
             String ut = "";
+            //oppdaterer listen
             setListe(ss);
         }
     }
     public void onResume(){
         super.onResume();
+        //oppdateres hver gang man er i resume
         HuskJSON task = new HuskJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romout.php"});
     }

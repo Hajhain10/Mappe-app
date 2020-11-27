@@ -12,7 +12,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="lage et nytt sted"
+            android:text="lag et nytt sted"
             android:id="@+id/nyttsted"
             android:onClick="nyttSted">
         </Button>
@@ -28,7 +28,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="lag rom"
+            android:text="Rom"
             android:onClick="tilRom"
             android:id="@+id/leie"
             >

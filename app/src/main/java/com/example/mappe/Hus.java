@@ -1,9 +1,10 @@
 package com.example.mappe;
 
 public class Hus {
+    //initaliserer
     private String beskrivelse, gateadresse, koordinater, antallEtasjer;
     private int id;
-
+    //open konstruktør dersom d trengs
     public Hus(){}
 
     public Hus(int id,String beskrivelse, String gateadresse, String koordinater, String antallEtasjer) {
@@ -14,6 +15,7 @@ public class Hus {
         this.antallEtasjer = antallEtasjer;
     }
 
+    //get og set metoder for alle
     public String getBeskrivelse() {
         return beskrivelse;
     }

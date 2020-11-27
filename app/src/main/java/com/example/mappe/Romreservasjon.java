@@ -1,9 +1,11 @@
 package com.example.mappe;
 
 public class Romreservasjon {
+    //initaliserer
     private int romnummer, husID;
     private String dato, starttid, slutttid;
 
+    //konstruktør
     public Romreservasjon(){}
 
     @Override
@@ -17,6 +19,7 @@ public class Romreservasjon {
                 '}';
     }
 
+    //konstruktør
     public Romreservasjon(int romnummer, int husID, String dato, String starttid, String slutttid) {
         this.romnummer = romnummer;
         this.husID = husID;
@@ -25,6 +28,7 @@ public class Romreservasjon {
         this.slutttid = slutttid;
     }
 
+    //get og set metoder for romreservasjon
     public int getRomnummer() {
         return romnummer;
     }

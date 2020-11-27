@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rom_side extends AppCompatActivity {
+    //initaliserer data
     ListView lv;
     List<String> liste = new ArrayList<>();
     String id, romnavn = "";
@@ -32,6 +33,7 @@ public class Rom_side extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rom_side);
+        //henter data
         idhus = getIntent().getStringExtra("hus_id");
         husnavn = getIntent().getStringExtra("husnavn");
         antalletasjer = getIntent().getStringExtra("antalletasjer");
@@ -43,7 +45,7 @@ public class Rom_side extends AppCompatActivity {
 
     }
     protected void setListe(ArrayList<String> listen){
-        //listen som viser arrayadapterens verdier
+        //oppdaterer listen
         liste = listen;
             final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, liste);
             lv.setAdapter(adapter);
@@ -60,12 +62,12 @@ public class Rom_side extends AppCompatActivity {
         }
 
     public void LagReservsjon(View view) {
+        //sjekker om rom er valgt
         if (id == null) {
             Toast toast = Toast.makeText(this, "Vennligst trykk på et rom", Toast.LENGTH_SHORT);
             toast.show();
-            //BYTT SIDE OG SEND MED HUSID OG ROMID
-
         }else{
+            //bytter side
             Intent i = new Intent(this, Reservasjon.class);
             i.putExtra("idhus", idhus);
             i.putExtra("idrom", id);
@@ -78,14 +80,14 @@ public class Rom_side extends AppCompatActivity {
     }
 
     public void leggInnNyttrom(View view) {
-            Intent i = new Intent(this, LeggtilRom.class);
-            i.putExtra("idhus", idhus);
-            i.putExtra("idrom", id);
-            i.putExtra("husnavn", husnavn);
-            i.putExtra("romnavn", romnavn);
-            i.putExtra("antalletasjer",antalletasjer);
-            startActivity(i);
-            //BYTT SIDE OG SEND MED HUSID OG ROMID
+        //bytter side
+        Intent i = new Intent(this, LeggtilRom.class);
+        i.putExtra("idhus", idhus);
+        i.putExtra("idrom", id);
+        i.putExtra("husnavn", husnavn);
+        i.putExtra("romnavn", romnavn);
+        i.putExtra("antalletasjer",antalletasjer);
+        startActivity(i);
     }
 
     public void RomInfo(View view) {
@@ -93,16 +95,17 @@ public class Rom_side extends AppCompatActivity {
             Toast toast = Toast.makeText(this, "Vennligst trykk på et rom", Toast.LENGTH_SHORT);
             toast.show();
         }else {
+            //btter side dersom rom er valgt
             Intent i = new Intent(this, Rominfo.class);
             i.putExtra("romid", id);
             i.putExtra("husid", idhus);
             i.putExtra("husnavn", husnavn);
             startActivity(i);
-            System.out.println("toast");
         }
     }
     public void onResume(){
         super.onResume();
+        //oppdaterer listen hver gang den er på onResume
         RomJSON task = new RomJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romout.php"});
     }
@@ -130,11 +133,12 @@ public class Rom_side extends AppCompatActivity {
                     while((s = br.readLine()) != null) { output = output + s; }
                     conn.disconnect();
                     try{
-                        JSONArray mat = new JSONArray(output);
-                        for (int i = 0; i < mat.length(); i++) {
-                            JSONObject jsonobject= mat.getJSONObject(i);
+                        JSONArray rom = new JSONArray(output);
+                        for (int i = 0; i < rom.length(); i++) {
+                            JSONObject jsonobject= rom.getJSONObject(i);
 
                             int hus_id= jsonobject.getInt("hus_id");
+                            //dersom den er i huset vi trakk på så henter den rommene som er laget
                             if(idhus.equals(String.valueOf(hus_id))) {
                                 int romnummer = jsonobject.getInt("romnummer");
                                 String beskrivelse= jsonobject.getString("beskrivelse");
@@ -143,10 +147,9 @@ public class Rom_side extends AppCompatActivity {
 
                                 retur =  "romnummer "+romnummer +" "+hus_id +" "+beskrivelse+" "+kapasitet +" "+etasjenr +"\n";
 
-                                rom = new Rom(romnummer,hus_id,beskrivelse,kapasitet,etasjenr);
+                                this.rom = new Rom(romnummer,hus_id,beskrivelse,kapasitet,etasjenr);
                                 ny.add(retur);
                             }
-                            System.out.println("ccccccc "+retur );
                         }
                         return ny;
                     } catch(JSONException e) {
@@ -161,6 +164,7 @@ public class Rom_side extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(ArrayList<String> ss) {
+            //oppdaterer liste
             System.out.println("jaaa "+ss.size()+ss);
             setListe(ss);
         }

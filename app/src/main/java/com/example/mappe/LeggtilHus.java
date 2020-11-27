@@ -24,16 +24,17 @@ import java.util.List;
 
 public class LeggtilHus extends AppCompatActivity {
 
+    //initaliserer data
     TextView tekst;
     EditText beskrivelse;
     EditText adresse;
     EditText etasjer;
     String ut;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.legg_til_hus);
+        //henter data
         double latitude = getIntent().getExtras().getDouble("lat",0);
         double longitude = getIntent().getExtras().getDouble("long", 0);
         tekst = (TextView) findViewById(R.id.koordianter);
