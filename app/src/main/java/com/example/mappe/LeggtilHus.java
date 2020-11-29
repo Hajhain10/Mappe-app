@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -94,13 +95,29 @@ public class LeggtilHus extends AppCompatActivity {
     }
 
     public void lagNyttHus(View view) {
-        String url = "http://student.cs.oslomet.no/~s331409/husin.php/?Beskrivelse="+beskrivelse.getText()+
-                "&Gateadresse="+adresse.getText()+"&Koordinater="+tekst.getText()+
-                "&Antalletasjer="+etasjer.getText()+"";
-        String urlen= url.replaceAll(" ","%20");
-        leggTil task = new leggTil();
-        Log.i("urlforja",urlen);
-        task.execute(new String[]{urlen});
-        finish();
+        if(sjekkInput(beskrivelse.getText().toString(),etasjer.getText().toString())) {
+            String url = "http://student.cs.oslomet.no/~s331409/husin.php/?Beskrivelse=" + beskrivelse.getText() +
+                    "&Gateadresse=" + adresse.getText() + "&Koordinater=" + tekst.getText() +
+                    "&Antalletasjer=" + etasjer.getText() + "";
+            String urlen = url.replaceAll(" ", "%20");
+            leggTil task = new leggTil();
+            task.execute(new String[]{urlen});
+            finish();
+        }
+    }
+    public boolean sjekkInput(String beskrivelse, String antallEtasjer){
+        if(beskrivelse.length() > 100 || beskrivelse.length() <= 0 ){
+            Toast toast = Toast.makeText(this, "beskrivelse", Toast.LENGTH_SHORT);
+            toast.show();
+            System.out.println("beskrivelse");
+            return false;
+        }
+        if(antallEtasjer.length() > 2 || antallEtasjer.length() <= 0 || antallEtasjer.equals("0")){
+            Toast toast = Toast.makeText(this, "etasjenr", Toast.LENGTH_SHORT);
+            toast.show();
+            System.out.println("etasjenr");
+            return false;
+        }
+        return true;
     }
 }

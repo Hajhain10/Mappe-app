@@ -83,7 +83,7 @@ public class LeggtilRom extends AppCompatActivity {
 
     public boolean sjekkInput(String romnummer, String beskrivelse, String etasjenr,
                               String kapasitet){
-        if(romnummer.length() > 3 || romnummer.length() <= 0 || romnummer.equals(0)){
+        if(romnummer.length() > 3 || romnummer.length() <= 0 || romnummer.equals("0")){
             Toast toast = Toast.makeText(this, "romnummer", Toast.LENGTH_SHORT);
             toast.show();
             return false;
@@ -94,13 +94,13 @@ public class LeggtilRom extends AppCompatActivity {
             System.out.println("beskrivelse");
             return false;
         }
-        if(etasjenr.length() > 2 || etasjenr.length() <= 0 || etasjenr.equals(0)){
+        if(etasjenr.length() > 2 || etasjenr.length() <= 0 || etasjenr.equals("0")){
             Toast toast = Toast.makeText(this, "etasjenr", Toast.LENGTH_SHORT);
             toast.show();
             System.out.println("etasjenr");
             return false;
         }
-        if(kapasitet.length() > 4 || kapasitet.length() <= 0 || kapasitet.equals(0)){
+        if(kapasitet.length() > 4 || kapasitet.length() <= 0 || kapasitet.equals("0")){
             Toast toast = Toast.makeText(this, "kapasitet", Toast.LENGTH_SHORT);
             toast.show();
             System.out.println("kapasitet");

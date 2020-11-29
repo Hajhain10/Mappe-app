@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="2">
+    android:weightSum="2"
+    android:background="#fff">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
+        android:background="@drawable/graafarge"
         android:weightSum="6">
         <EditText
             android:layout_width="match_parent"
@@ -19,12 +21,14 @@
             android:hint="Romnummer"
             android:inputType="number"
             android:id="@+id/romnummer"
+            android:textColor="@color/blaafarge"
             ></EditText>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:id="@+id/hus_id"
+            android:textColor="@color/blaafarge"
             ></TextView>
         <EditText
             android:layout_width="match_parent"
@@ -32,7 +36,8 @@
             android:layout_weight="1"
             android:hint="Etasje Nr"
             android:inputType="number"
-            android:id="@+id/etasje_nr">
+            android:id="@+id/etasje_nr"
+            android:textColor="@color/blaafarge">
         </EditText>
         <EditText
             android:layout_width="match_parent"
@@ -40,7 +45,8 @@
             android:layout_weight="1"
             android:hint="Kapasitet"
             android:inputType="number"
-            android:id="@+id/kapasitet">
+            android:id="@+id/kapasitet"
+            android:textColor="@color/blaafarge">
         </EditText>
         <EditText
             android:layout_width="match_parent"
@@ -48,13 +54,15 @@
             android:layout_weight="1"
             android:hint="beskrivelse"
             android:id="@+id/beskrivelse"
+            android:textColor="@color/blaafarge"
             ></EditText>
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="Lagre"
-            android:onClick="lagNyttRom">
+            android:onClick="lagNyttRom"
+            android:background="@drawable/blafarge">
         </Button>
     </LinearLayout>
 </LinearLayout>

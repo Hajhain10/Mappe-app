@@ -3,34 +3,49 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="10">
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:id="@+id/adresse"
+        android:background="@drawable/graafarge"
+        android:textColor="@color/blaafarge"
     ></EditText>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:id="@+id/koordianter"
+        android:background="@drawable/graafarge"
+        android:textColor="@color/blaafarge"
         ></TextView>
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:hint="Antall etasjer"
-        android:id="@+id/etasjer">
+        android:id="@+id/etasjer"
+        android:background="@drawable/graafarge"
+        android:textColor="@color/blaafarge">
     </EditText>
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:hint="beskrivelse"
         android:id="@+id/beskrivelse"
+        android:background="@drawable/graafarge"
+        android:textColor="@color/blaafarge"
         ></EditText>
 <Button
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="0dp"
+    android:layout_weight="1"
     android:text="Lagre"
-    android:onClick="lagNyttHus">
+    android:onClick="lagNyttHus"
+    android:background="@drawable/blafarge">
 </Button>
 </LinearLayout>
