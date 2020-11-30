@@ -40,7 +40,7 @@ public class ReserverRom extends AppCompatActivity {
         }
         return ut;
     }
-
+    
     private class leggTil extends AsyncTask<String, Void,String> {
         @Override
         protected String doInBackground(String... urls) {
@@ -73,11 +73,16 @@ public class ReserverRom extends AppCompatActivity {
     public void lagNyttReservasjon(View view) {
         //knapp metode for å legge inn
         System.out.println(hus_id);
+        //Deler opp tid-feltet på hver linjeskift
         String[] biter = tid.getText().toString().split("\n");
         for(int i = 0; i<biter.length;i++) {
+            //Deler opp linja på "til" for å få start- og slutttid
             String[] biter2 = biter[i].split("til");
+            //forste streng blir starttid
             String start = biter2[0];
+            //andre streng blir slutttid
             String slutt = biter2[1];
+            //fjerner all tomrom fra slutt- og starttid strengene
             String url = "http://student.cs.oslomet.no/~s331409/romreservasjonin.php/?Romnummer=" + romid.getText() +
                     "&Hus_id=" + hus_id+ "&Dato=" + dato.getText() + "&Starttid="
                     + start.replaceAll(" ", "") +

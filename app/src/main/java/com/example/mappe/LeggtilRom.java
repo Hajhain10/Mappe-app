@@ -67,39 +67,44 @@ public class LeggtilRom extends AppCompatActivity {
     }
 
     public void lagNyttRom(View view) {
+        //sjekker om input er gyldig
         if(sjekkInput(romnummer.getText().toString(), beskrivelse.getText().toString(),
                 etasjenr.getText().toString(), kapasitet.getText().toString())){
             String url = "http://student.cs.oslomet.no/~s331409/romin.php/?Romnummer="+
                     romnummer.getText()+"&Hus_id="+husid.getText()+"&Beskrivelse="+
                     beskrivelse.getText()+"&Etasjenr="+etasjenr.getText()+
                     "&Kapasitet="+kapasitet.getText()+"";
+            //erstatter alle tomrom med %20
             String urlen= url.replaceAll(" ","%20");
             LeggtilRom.leggTil task = new LeggtilRom.leggTil();
-            Log.i("urlforja",urlen);
             task.execute(new String[]{urlen});
             finish();
         }
     }
-
+    //metode for å sjekke om input er gyldig
     public boolean sjekkInput(String romnummer, String beskrivelse, String etasjenr,
                               String kapasitet){
+        //sjekker om romnummer-feltet er tom, eller om det er større enn int(3)
         if(romnummer.length() > 3 || romnummer.length() <= 0 || romnummer.equals("0")){
             Toast toast = Toast.makeText(this, "romnummer", Toast.LENGTH_SHORT);
             toast.show();
             return false;
         }
+        //sjekker om beskrivelse-feltet er tom, eller om det er større enn varchar(100)
         if(beskrivelse.length() > 100 || beskrivelse.length() <= 0 ){
             Toast toast = Toast.makeText(this, "beskrivelse", Toast.LENGTH_SHORT);
             toast.show();
             System.out.println("beskrivelse");
             return false;
         }
+        //sjekker om etasjenr-feltet er tom, eller om det er større enn varchar(2)
         if(etasjenr.length() > 2 || etasjenr.length() <= 0 || etasjenr.equals("0")){
             Toast toast = Toast.makeText(this, "etasjenr", Toast.LENGTH_SHORT);
             toast.show();
             System.out.println("etasjenr");
             return false;
         }
+        //sjekker om kapasitet-feltet er tom, eller om det er større enn varchar(4)
         if(kapasitet.length() > 4 || kapasitet.length() <= 0 || kapasitet.equals("0")){
             Toast toast = Toast.makeText(this, "kapasitet", Toast.LENGTH_SHORT);
             toast.show();

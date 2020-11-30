@@ -95,6 +95,7 @@ public class LeggtilHus extends AppCompatActivity {
     }
 
     public void lagNyttHus(View view) {
+        //sjekker om input er gyldig
         if(sjekkInput(beskrivelse.getText().toString(),etasjer.getText().toString())) {
             String url = "http://student.cs.oslomet.no/~s331409/husin.php/?Beskrivelse=" + beskrivelse.getText() +
                     "&Gateadresse=" + adresse.getText() + "&Koordinater=" + tekst.getText() +
@@ -106,12 +107,14 @@ public class LeggtilHus extends AppCompatActivity {
         }
     }
     public boolean sjekkInput(String beskrivelse, String antallEtasjer){
+        //sjekker om beskrivelse-feltet er tom, eller om det er større enn varchar(100)
         if(beskrivelse.length() > 100 || beskrivelse.length() <= 0 ){
             Toast toast = Toast.makeText(this, "beskrivelse", Toast.LENGTH_SHORT);
             toast.show();
             System.out.println("beskrivelse");
             return false;
         }
+        //sjekker om antallEtasjer-feltet er tom, eller om det er større enn varchar(2)
         if(antallEtasjer.length() > 2 || antallEtasjer.length() <= 0 || antallEtasjer.equals("0")){
             Toast toast = Toast.makeText(this, "etasjenr", Toast.LENGTH_SHORT);
             toast.show();
