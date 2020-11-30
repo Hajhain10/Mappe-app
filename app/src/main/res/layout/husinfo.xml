@@ -93,10 +93,10 @@
                 android:layout_weight="4"
                 android:hint="koordinater"
                 android:id="@+id/koordianter"
-                android:textColor="@color/blaafarge"
                 android:textSize="20dp"
-                android:gravity="bottom"
-                android:textStyle="bold"></TextView>
+                android:textColor="@color/sortish"
+                android:textStyle="bold"
+                android:gravity="center_vertical"></TextView>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

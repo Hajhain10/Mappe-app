@@ -6,19 +6,20 @@
     android:orientation="vertical"
     android:weightSum="10">
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:id="@+id/adresse"
         android:background="@drawable/graafarge"
         android:textColor="@color/blaafarge"
-    ></EditText>
+    ></TextView>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:id="@+id/koordianter"
+        android:textStyle="bold"
         android:background="@drawable/graafarge"
         android:textColor="@color/blaafarge"
         ></TextView>
@@ -28,6 +29,7 @@
         android:layout_weight="1"
         android:hint="Antall etasjer"
         android:id="@+id/etasjer"
+        android:textColorHint="@color/graaish"
         android:background="@drawable/graafarge"
         android:textColor="@color/blaafarge">
     </EditText>
@@ -36,6 +38,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:hint="beskrivelse"
+        android:textColorHint="@color/graaish"
         android:id="@+id/beskrivelse"
         android:background="@drawable/graafarge"
         android:textColor="@color/blaafarge"

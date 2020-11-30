@@ -21,6 +21,7 @@
             android:hint="Romnummer"
             android:inputType="number"
             android:id="@+id/romnummer"
+            android:textColorHint="@color/graaish"
             android:textColor="@color/blaafarge"
             ></EditText>
         <TextView
@@ -28,6 +29,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:id="@+id/hus_id"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:gravity="center_vertical"
             android:textColor="@color/blaafarge"
             ></TextView>
         <EditText
@@ -37,6 +41,7 @@
             android:hint="Etasje Nr"
             android:inputType="number"
             android:id="@+id/etasje_nr"
+            android:textColorHint="@color/graaish"
             android:textColor="@color/blaafarge">
         </EditText>
         <EditText
@@ -44,6 +49,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:hint="Kapasitet"
+            android:textColorHint="@color/graaish"
             android:inputType="number"
             android:id="@+id/kapasitet"
             android:textColor="@color/blaafarge">
@@ -53,6 +59,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:hint="beskrivelse"
+            android:textColorHint="@color/graaish"
             android:id="@+id/beskrivelse"
             android:textColor="@color/blaafarge"
             ></EditText>

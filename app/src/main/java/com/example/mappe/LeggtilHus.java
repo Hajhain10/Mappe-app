@@ -28,7 +28,7 @@ public class LeggtilHus extends AppCompatActivity {
     //initaliserer data
     TextView tekst;
     EditText beskrivelse;
-    EditText adresse;
+    TextView adresse;
     EditText etasjer;
     String ut;
 
@@ -40,7 +40,7 @@ public class LeggtilHus extends AppCompatActivity {
         double longitude = getIntent().getExtras().getDouble("long", 0);
         tekst = (TextView) findViewById(R.id.koordianter);
         beskrivelse = (EditText) findViewById(R.id.beskrivelse);
-        adresse = (EditText) findViewById(R.id.adresse);
+        adresse = (TextView) findViewById(R.id.adresse);
         etasjer = (EditText) findViewById(R.id.etasjer);
         ut = getLocationFromnumber(latitude+","+longitude);
         adresse.setText(ut);

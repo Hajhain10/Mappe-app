@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -22,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3.5"
-        android:weightSum="10"
+        android:weightSum="12"
         android:orientation="vertical"
         android:background="#fff">
         <LinearLayout
@@ -72,6 +71,43 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:text="Romnummer:"
+                android:id="@+id/romnummerbes"
+                android:textColor="@color/blaafarge"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:gravity="bottom"
+                android:layout_weight="4"></TextView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:orientation="horizontal"
+            android:weightSum="5"
+            android:background="@drawable/graafarge"
+            android:gravity="center">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="Hus adresse"
+                android:id="@+id/romnummer"
+                android:textSize="20dp"
+                android:textColor="@color/sortish"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:layout_weight="4"></TextView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="5"
+            android:gravity="center">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:text="Dato:"
                 android:textColor="@color/blaafarge"
@@ -95,10 +131,10 @@
                 android:hint="koordinater"
                 android:inputType="date"
                 android:id="@+id/dato"
-                android:textColor="@color/blaafarge"
                 android:textSize="20dp"
-                android:gravity="bottom"
-                android:textStyle="bold"></TextView>
+                android:textColor="@color/sortish"
+                android:textStyle="bold"
+                android:gravity="center_vertical"></TextView>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

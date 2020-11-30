@@ -40,7 +40,7 @@ public class ReserverRom extends AppCompatActivity {
         }
         return ut;
     }
-    
+
     private class leggTil extends AsyncTask<String, Void,String> {
         @Override
         protected String doInBackground(String... urls) {
