@@ -54,7 +54,7 @@ public class Reservasjon extends AppCompatActivity {
         husnavn = getIntent().getStringExtra("husnavn");
         //henter dato for i dag
         Date idag = new Date();
-        SimpleDateFormat dato = new SimpleDateFormat("dd.MM.yy");
+        SimpleDateFormat dato = new SimpleDateFormat("dd.MM.yyyy");
         datoen = dato.format(idag);
         skrivinn.setText("Dato valgt "+datoen+", Trykk her for å endre dato");
         //datoene som skal være tilgjengelige
