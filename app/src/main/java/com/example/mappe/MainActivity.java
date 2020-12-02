@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -36,6 +37,8 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
     protected GoogleMap nMap;
     protected Marker marker;
     String id,husnavn="";
+    String adresse="";
+    boolean riktig=false;
     String antalletasjer="";
     Button romknapp;
     Button nyttsted;
@@ -97,46 +100,15 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         //dersom man skal lage et nytt sted
         MarkerOptions m = new MarkerOptions();
         m.position(latLng);
-        m.title("den nye");
         marker = nMap.addMarker(m);
-        latitude = marker.getPosition().latitude;
-        longitude = marker.getPosition().longitude;
         String send = marker.getPosition().latitude +","+ marker.getPosition().longitude;
-    }
-    public String getLocationFromAddress(String saddress){
-        Geocoder coder = new Geocoder(this);
-        List<Address> address;
-        try {
-            address = coder.getFromLocationName(saddress,1);
-            if (saddress==null){
-                return null;
-            }
-            Address location = address.get(0);
-            double lat = location.getLatitude();
-            double ing = location.getLongitude();
-            return lat +","+ ing;
-        }catch (Exception e){
-            return null;
-        }
-    }
-
-    public String getLocationFromnumber(String navn) {
-        Geocoder coder = new Geocoder(getApplicationContext());
-        List<Address> address;
-        try {
-            String[] p = navn.split(",");
-
-            System.out.println("aaaaaaaa"+navn);
-            address = coder.getFromLocation(Double.parseDouble(p[0]),Double.parseDouble(p[1]),1);
-            // address = coder.getFromLocationName(saddress,1);
-
-            Address location = address.get(0);
-            System.out.println("bbbb"+location.getThoroughfare()+location.getAdminArea()+location.getFeatureName()
-                    +location.getSubLocality());
-            return location.getAddressLine(0).toString();
-        }catch (Exception e){
-            return null;
-        }
+        System.out.println("aaaah"+send);
+        GetLocationTask se = new GetLocationTask(send);
+        System.out.println("svar"+send);
+        se.execute();
+        m.title("den nye");
+        longitude = marker.getPosition().longitude;
+        latitude = marker.getPosition().latitude;
     }
 
     public void nyttSted(View view) {
@@ -147,19 +119,26 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
                     "velg på kartet der du vil legge til et nytt hus",
                     Toast.LENGTH_SHORT).show();
         }
+        else if(riktig==false){
+            Toast.makeText(this,
+                    "stedet du har valgt er ikke riktig",
+                    Toast.LENGTH_SHORT).show();
+        }else if(!adresse.contains("Oslo")){
+            Toast.makeText(this,
+                    "Adressen må være i Oslo, vennigst velg et nytt sted",
+                    Toast.LENGTH_SHORT).show();
+        }
         else if(nyttsted.getText().toString().equals("trykk her når ferdig")){
             Intent i = new Intent(this,LeggtilHus.class);
             i.putExtra("lat",latitude);
             i.putExtra("long",longitude);
+            i.putExtra("addressen",adresse);
             startActivity(i);
             recreate();
         }
         avbrytknapp.setVisibility(View.VISIBLE);
         romknapp.setVisibility(View.GONE);
         nyttsted.setText("trykk her når ferdig");
-        Toast.makeText(this,
-                "velg på kartet der du vil legge til et nytt hus",
-                Toast.LENGTH_SHORT).show();
         nMap.setOnMapClickListener(this);
         nMap.setOnMarkerClickListener(null);
     }
@@ -246,7 +225,68 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
            }
         }
     }
+    private class GetLocationTask extends AsyncTask<Void, Void, Boolean> {
+        JSONObject jsonObject;
+        String address;
+        String lokasjon;
+        public GetLocationTask(String a) {
+            this.address = a;
+        }
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            String s = "";
+            String output = "";
 
+            String query = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+
+                    address+"&key=AIzaSyAQndCkd5KaHqStm_3Klr7YVILdApgybas";
+            try {
+                URL urlen = new URL(query);
+                HttpURLConnection conn = (HttpURLConnection) urlen.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Accept", "application/json");
+                if (conn.getResponseCode() != 200) {
+                    throw new RuntimeException("Failed : HTTP error code : "
+                            + conn.getResponseCode());
+                }
+                BufferedReader br = new BufferedReader(new
+                        InputStreamReader((conn.getInputStream())));
+                while ((s = br.readLine()) != null) {
+                    output = output + s;
+                }
+                System.out.println(output);
+                jsonObject = new JSONObject(output.toString());
+                conn.disconnect();
+
+                adresse =
+                        ((JSONArray)jsonObject.get("results")).getJSONObject(0).getString("formatted_address");
+                System.out.println("svar"+adresse);
+                String vannellerikke =
+                        ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry").getString("location_type");
+                String vannellerikketype =
+                        ((JSONArray)jsonObject.get("results")).getJSONObject(0).getString("types");
+                lokasjon = vannellerikke.toString();
+                System.out.println(lokasjon + " "+vannellerikketype);
+                if(vannellerikke.equals("ROOFTOP") && vannellerikketype.contains("street_address")){
+                    return true;
+                }else {
+                    return false;
+                }
+            }
+            catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+            //  koordinater.setText(lokasjon);
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean resultat) {
+            riktig = resultat;
+            System.out.println("svar "+resultat);
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();

@@ -42,26 +42,30 @@ public class LeggtilHus extends AppCompatActivity {
         beskrivelse = (EditText) findViewById(R.id.beskrivelse);
         adresse = (TextView) findViewById(R.id.adresse);
         etasjer = (EditText) findViewById(R.id.etasjer);
-        ut = getLocationFromnumber(latitude+","+longitude);
+        ut = getIntent().getExtras().getString("addressen");
+
         adresse.setText(ut);
         tekst.setText(latitude+","+longitude);
 
 
     }
     public String getLocationFromnumber(String navn) {
-        Geocoder coder = new Geocoder(getApplicationContext());
+        Geocoder coder = new Geocoder(this);
         List<Address> address;
         try {
             String[] p = navn.split(",");
+            Toast.makeText(this,
+                    navn,
+                    Toast.LENGTH_SHORT).show();
 
             System.out.println("aaaaaaaa" + navn);
             address = coder.getFromLocation(Double.parseDouble(p[0]), Double.parseDouble(p[1]), 1);
             // address = coder.getFromLocationName(saddress,1);
 
             Address location = address.get(0);
-            return location.getAddressLine(0).toString();
+            return location.getAddressLine(0)+"nå";
         } catch (Exception e) {
-            return null;
+            return "null";
         }
     }
     private class leggTil extends AsyncTask<String, Void,String> {

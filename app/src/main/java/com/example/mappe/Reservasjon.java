@@ -58,6 +58,10 @@ public class Reservasjon extends AppCompatActivity {
         datoen = dato.format(idag);
         skrivinn.setText("Dato valgt "+datoen+", Trykk her for å endre dato");
         //datoene som skal være tilgjengelige
+        liste = new ArrayList<>();
+        Collections.addAll(liste,getResources().getStringArray(R.array.timeliste));
+
+        /*
         liste.add("13.00 - 13.30");
         liste.add("13.30 - 14.00");
         liste.add("14.00 - 14.30");
@@ -71,6 +75,8 @@ public class Reservasjon extends AppCompatActivity {
         liste.add("18.00 - 18.30");
         liste.add("18.30 - 19.00");
         liste.add("19.00 - 19.30");
+
+         */
         //henter tider som ikke er ledige
         HuskJSON jsson = new HuskJSON();
         jsson.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romreservasjonout.php"});
@@ -103,11 +109,14 @@ public class Reservasjon extends AppCompatActivity {
 
     public void oppdaterlisten() {
         //etter at datoen blir satt så oppdateres listen ved hjelp av asynctask
-        liste.clear();liste.add("13.00 - 13.30");liste.add("13.30 - 14.00");
+      /*  liste.clear();liste.add("13.00 - 13.30");liste.add("13.30 - 14.00");
         liste.add("14.00 - 14.30");liste.add("14.30 - 15.00");liste.add("15.00 - 15.30");
         liste.add("15.30 - 16.00");liste.add("16.00 - 16.30");
         liste.add("16.30 - 17.00");liste.add("17.00 - 17.30");
         liste.add("17.30 - 18.00");liste.add("18.00 - 18.30");liste.add("18.30 - 19.00");
+       */
+        liste = new ArrayList<>();
+        Collections.addAll(liste,getResources().getStringArray(R.array.timeliste));
         HuskJSON jsson = new HuskJSON();
         jsson.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romreservasjonout.php"});
     }
