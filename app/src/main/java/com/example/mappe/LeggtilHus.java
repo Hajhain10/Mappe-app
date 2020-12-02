@@ -46,8 +46,6 @@ public class LeggtilHus extends AppCompatActivity {
 
         adresse.setText(ut);
         tekst.setText(latitude+","+longitude);
-
-
     }
     public String getLocationFromnumber(String navn) {
         Geocoder coder = new Geocoder(this);

@@ -1,5 +1,6 @@
 package com.example.mappe;
 
+import android.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -45,6 +47,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
     Button avbrytknapp;
     Button husinfo;
     double latitude, longitude = 0;
+    Toolbar myToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +60,10 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         husinfo.setVisibility(View.GONE);
         avbrytknapp.setVisibility(View.GONE);
         romknapp.setVisibility(View.GONE);
+
+        myToolbar= (Toolbar) findViewById(R.id.mintoolbar);
+        myToolbar.setLogo(R.drawable.appikon);
+        setActionBar(myToolbar);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
