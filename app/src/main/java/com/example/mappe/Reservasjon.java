@@ -163,7 +163,7 @@ public class Reservasjon extends AppCompatActivity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int aar, int maned, int dag) {
-                        datoen = String.format("%02d",dag)+"."+String.format("%02d",(maned+1))+"."+20;
+                        datoen = String.format("%02d",dag)+"."+String.format("%02d",(maned+1))+"."+aar;
                         skrivinn.setText("Dato valgt "+datoen+", Trykk her for å endre dato");
                         oppdaterlisten();
                     }
