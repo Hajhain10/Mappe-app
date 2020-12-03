@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -72,7 +73,8 @@ public class ReserverRom extends AppCompatActivity {
     }
     public void lagNyttReservasjon(View view) {
         //knapp metode for å legge inn
-        System.out.println(hus_id);
+        Toast.makeText(this,"Lagret",
+                Toast.LENGTH_SHORT).show();
         //Deler opp tid-feltet på hver linjeskift
         String[] biter = tid.getText().toString().split("\n");
         for(int i = 0; i<biter.length;i++) {

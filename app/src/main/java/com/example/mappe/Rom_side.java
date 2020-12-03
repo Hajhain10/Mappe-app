@@ -145,7 +145,8 @@ public class Rom_side extends AppCompatActivity {
                                 String kapasitet= jsonobject.getString("kapasitet");
                                 String etasjenr= jsonobject.getString("etasjenr");
 
-                                retur =  "romnummer "+romnummer +" "+hus_id +" "+beskrivelse+" "+kapasitet +" "+etasjenr +"\n";
+                                retur =  "romnummer "+romnummer +" etasjenummer : "+etasjenr+
+                                        " \nkapasitet : "+kapasitet +"\n";
 
                                 this.rom = new Rom(romnummer,hus_id,beskrivelse,kapasitet,etasjenr);
                                 ny.add(retur);
