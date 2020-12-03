@@ -91,6 +91,7 @@
             android:textSize="20dp"
             android:gravity="center_vertical"
             android:id="@+id/etasjer"
+            android:inputType="number"
             android:textColorHint="@color/graaish"
             android:background="@drawable/graafarge"
             android:textColor="@color/blaafarge">
@@ -102,18 +103,18 @@
         android:layout_weight="1"
         android:orientation="horizontal"
         android:weightSum="6">
-        <EditText
+        <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:text="beskrivelse"
+            android:text="Beskrivelse:"
             android:textColorHint="@color/graaish"
             android:textSize="20dp"
             android:gravity="center_vertical"
             android:id="@+id/beskrivelsebes"
             android:background="@drawable/graafarge"
             android:textColor="@color/blaafarge"
-            ></EditText>
+            ></TextView>
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
