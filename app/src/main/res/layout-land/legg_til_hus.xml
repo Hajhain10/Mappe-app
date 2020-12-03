@@ -6,52 +6,127 @@
     android:orientation="vertical"
     android:weightSum="5"
     android:background="#fff">
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="6">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="Adresse:"
+            android:id="@+id/adressebes"
+            android:background="@drawable/graafarge"
+            android:textColor="@color/blaafarge"
+            ></TextView>
+        <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
         android:gravity="center_vertical"
         android:textSize="20dp"
         android:id="@+id/adresse"
         android:background="@drawable/graafarge"
         android:textColor="@color/blaafarge"
-    ></TextView>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textSize="20dp"
-        android:gravity="center_vertical"
-        android:id="@+id/koordianter"
-        android:textStyle="bold"
-        android:background="@drawable/graafarge"
-        android:textColor="@color/blaafarge"
         ></TextView>
-    <EditText
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:hint="Antall etasjer"
-        android:textSize="20dp"
-        android:gravity="center_vertical"
-        android:id="@+id/etasjer"
-        android:textColorHint="@color/graaish"
-        android:background="@drawable/graafarge"
-        android:textColor="@color/blaafarge">
-    </EditText>
-    <EditText
+        android:orientation="horizontal"
+        android:weightSum="6">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textSize="20dp"
+            android:text="Koordinater:"
+            android:gravity="center_vertical"
+            android:id="@+id/koordianterbes"
+            android:textStyle="bold"
+            android:background="@drawable/graafarge"
+            android:textColor="@color/blaafarge"
+            ></TextView>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:textSize="20dp"
+            android:gravity="center_vertical"
+            android:id="@+id/koordianter"
+            android:textStyle="bold"
+            android:background="@drawable/graafarge"
+            android:textColor="@color/blaafarge"
+            ></TextView>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:hint="beskrivelse"
-        android:textColorHint="@color/graaish"
-        android:textSize="20dp"
-        android:gravity="center_vertical"
-        android:id="@+id/beskrivelse"
-        android:background="@drawable/graafarge"
-        android:textColor="@color/blaafarge"
-        ></EditText>
+        android:orientation="horizontal"
+        android:weightSum="6">
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="Antall etasjer"
+            android:textSize="20dp"
+            android:gravity="center_vertical"
+            android:id="@+id/etasjerbes"
+            android:textColorHint="@color/graaish"
+            android:background="@drawable/graafarge"
+            android:textColor="@color/blaafarge">
+        </EditText>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:hint="Antall etasjer"
+            android:textSize="20dp"
+            android:gravity="center_vertical"
+            android:id="@+id/etasjer"
+            android:textColorHint="@color/graaish"
+            android:background="@drawable/graafarge"
+            android:textColor="@color/blaafarge">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="6">
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="beskrivelse"
+            android:textColorHint="@color/graaish"
+            android:textSize="20dp"
+            android:gravity="center_vertical"
+            android:id="@+id/beskrivelsebes"
+            android:background="@drawable/graafarge"
+            android:textColor="@color/blaafarge"
+            ></EditText>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:hint="beskrivelse"
+            android:textColorHint="@color/graaish"
+            android:textSize="20dp"
+            android:gravity="center_vertical"
+            android:id="@+id/beskrivelse"
+            android:background="@drawable/graafarge"
+            android:textColor="@color/blaafarge"
+            ></EditText>
+    </LinearLayout>
 <Button
     android:layout_width="match_parent"
     android:layout_height="0dp"
