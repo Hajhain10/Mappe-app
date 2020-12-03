@@ -273,7 +273,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
                         ((JSONArray)jsonObject.get("results")).getJSONObject(0).getString("types");
                 lokasjon = vannellerikke.toString();
                 System.out.println(lokasjon + " "+vannellerikketype);
-                if(vannellerikke.equals("ROOFTOP") && vannellerikketype.contains("street_address")){
+                if(vannellerikke.equals("ROOFTOP")){
                     return true;
                 }else {
                     return false;

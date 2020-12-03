@@ -19,8 +19,9 @@ import java.net.URL;
 
 public class LeggtilRom extends AppCompatActivity {
     EditText romnummer, etasjenr, beskrivelse, kapasitet;
-    TextView husid;
-    String antalletasjer="";
+    TextView husadresse;
+    String husid="";
+    int antalletasjer=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +30,12 @@ public class LeggtilRom extends AppCompatActivity {
         etasjenr = (EditText) findViewById(R.id.etasje_nr);
         beskrivelse = (EditText) findViewById(R.id.beskrivelse);
         kapasitet = (EditText) findViewById(R.id.kapasitet);
-        husid = (TextView) findViewById(R.id.hus_id);
+        husadresse = (TextView) findViewById(R.id.hus_id);
 
-        husid.setText(getIntent().getStringExtra("idhus"));
-        antalletasjer = getIntent().getStringExtra("antalletasjer");
-        Toast toast = Toast.makeText(this, antalletasjer, Toast.LENGTH_SHORT);
-        toast.show();
+        husid = getIntent().getStringExtra("idhus");
+        husadresse.setText(getIntent().getStringExtra("husnavn"));
+        antalletasjer = Integer.parseInt(getIntent().getStringExtra("antalletasjer"));
+
     }
     private class leggTil extends AsyncTask<String, Void,String> {
         @Override
@@ -71,7 +72,7 @@ public class LeggtilRom extends AppCompatActivity {
         if(sjekkInput(romnummer.getText().toString(), beskrivelse.getText().toString(),
                 etasjenr.getText().toString(), kapasitet.getText().toString())){
             String url = "http://student.cs.oslomet.no/~s331409/romin.php/?Romnummer="+
-                    romnummer.getText()+"&Hus_id="+husid.getText()+"&Beskrivelse="+
+                    romnummer.getText()+"&Hus_id="+husid+"&Beskrivelse="+
                     beskrivelse.getText()+"&Etasjenr="+etasjenr.getText()+
                     "&Kapasitet="+kapasitet.getText()+"";
             //erstatter alle tomrom med %20
@@ -98,8 +99,8 @@ public class LeggtilRom extends AppCompatActivity {
             return false;
         }
         //sjekker om etasjenr-feltet er tom, eller om det er større enn varchar(2)
-        if(etasjenr.length() > 2 || etasjenr.length() <= 0 || etasjenr.equals("0")){
-            Toast toast = Toast.makeText(this, "etasjenr", Toast.LENGTH_SHORT);
+        if(Integer.parseInt(etasjenr)>antalletasjer){
+            Toast toast = Toast.makeText(this, "Maks antall etasjer er "+antalletasjer, Toast.LENGTH_SHORT);
             toast.show();
             System.out.println("etasjenr");
             return false;
