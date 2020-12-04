@@ -125,4 +125,14 @@ public class LeggtilHus extends AppCompatActivity {
         }
         return true;
     }
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putString("etasjer",etasjer.getText().toString());
+        outState.putString("beskrivelse",beskrivelse.getText().toString());
+    }
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        etasjer.setText(savedInstanceState.getString("etasjer"));
+        beskrivelse.setText(savedInstanceState.getString("beskrivelse"));
+    }
 }

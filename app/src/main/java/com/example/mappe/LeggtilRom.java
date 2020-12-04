@@ -91,13 +91,6 @@ public class LeggtilRom extends AppCompatActivity {
             toast.show();
             return false;
         }
-        //sjekker om beskrivelse-feltet er tom, eller om det er større enn varchar(100)
-        if(beskrivelse.length() > 100 || beskrivelse.length() <= 0 ){
-            Toast toast = Toast.makeText(this, "beskrivelse", Toast.LENGTH_SHORT);
-            toast.show();
-            System.out.println("beskrivelse");
-            return false;
-        }
         //sjekker om etasjenr-feltet er tom, eller om det er større enn varchar(2)
         if(Integer.parseInt(etasjenr)>antalletasjer){
             Toast toast = Toast.makeText(this, "Maks antall etasjer er "+antalletasjer, Toast.LENGTH_SHORT);
@@ -112,6 +105,29 @@ public class LeggtilRom extends AppCompatActivity {
             System.out.println("kapasitet");
             return false;
         }
+        //sjekker om beskrivelse-feltet er tom, eller om det er større enn varchar(100)
+        if(beskrivelse.length() > 100 || beskrivelse.length() <= 0 ){
+            Toast toast = Toast.makeText(this, "beskrivelse", Toast.LENGTH_SHORT);
+            toast.show();
+            System.out.println("beskrivelse");
+            return false;
+        }
         return true;
+    }
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        //lagrer alt som trengs ved rotering
+        outState.putString("romnummer",romnummer.getText().toString());
+        outState.putString("etasjenr",etasjenr.getText().toString());
+        outState.putString("beskrivelse",beskrivelse.getText().toString());
+        outState.putString("kapasitet",kapasitet.getText().toString());
+    }
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        //henter alle verdiene fra metoden over
+        romnummer.setText(savedInstanceState.getString("romnummer"));
+        etasjenr.setText(savedInstanceState.getString("etasjenr"));
+        beskrivelse.setText(savedInstanceState.getString("beskrivelse"));
+        kapasitet.setText(savedInstanceState.getString("kapasitet"));
     }
 }
