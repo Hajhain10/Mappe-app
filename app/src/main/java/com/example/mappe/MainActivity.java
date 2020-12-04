@@ -76,11 +76,11 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
     @Override
     public void onMapReady(GoogleMap googleMap) {
         nMap = googleMap;
-        LatLng startsted = new LatLng(59.9238031,10.7292638);
+        LatLng startsted = new LatLng(59.919639,10.735944);
        // LatLng l = new LatLng(59.9241992,10.9560766);
        // nMap.addMarker(new MarkerOptions().position(l).title("Gammwlt hus").snippet("sniper deg 2 ganger"));
        // nMap.addMarker(new MarkerOptions().position(startsted).title("OSLO").snippet("snipped"));
-        float zoom = 14.0f;
+        float zoom = 17.5f;
         nMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startsted,zoom));
 
         nMap.setOnMarkerClickListener(this);

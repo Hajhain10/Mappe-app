@@ -243,4 +243,16 @@ public class Reservasjon extends AppCompatActivity {
         HuskJSON task = new HuskJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romout.php"});
     }
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putString("dato",datoen);
+        outState.putIntegerArrayList("valgtetider",valgtetider);
+
+    }
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        datoen = savedInstanceState.getString("dato");
+        skrivinn.setText("Dato valgt "+datoen+", Trykk her for å endre dato");
+
+    }
 }
