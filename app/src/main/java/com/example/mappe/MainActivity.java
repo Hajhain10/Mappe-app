@@ -95,7 +95,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         id = liste[0];
         antalletasjer = liste[1];
         husnavn = marker.getTitle();
-        Toast.makeText(this,"Klikk <rom> for å lage rom i "+marker.getTitle(),
+        Toast.makeText(this,"Klikk <rom> for å lage / reservere rom i "+marker.getTitle(),
                 Toast.LENGTH_SHORT).show();
         return false;
     }

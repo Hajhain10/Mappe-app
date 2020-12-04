@@ -79,6 +79,8 @@ public class LeggtilRom extends AppCompatActivity {
             String urlen= url.replaceAll(" ","%20");
             LeggtilRom.leggTil task = new LeggtilRom.leggTil();
             task.execute(new String[]{urlen});
+            Toast.makeText(this,"Rom er lagt til",
+                    Toast.LENGTH_SHORT).show();
             finish();
         }
     }

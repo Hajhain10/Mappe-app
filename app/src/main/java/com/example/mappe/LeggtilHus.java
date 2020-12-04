@@ -105,6 +105,8 @@ public class LeggtilHus extends AppCompatActivity {
             String urlen = url.replaceAll(" ", "%20");
             leggTil task = new leggTil();
             task.execute(new String[]{urlen});
+            Toast.makeText(this,"Hus er lagt til",
+                    Toast.LENGTH_SHORT).show();
             finish();
         }
     }
