@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -40,7 +41,7 @@ public class Reservasjon extends AppCompatActivity {
     DatePickerDialog velgdato;
     String idhus,idrom,husnavn="";
     ListView lv;
-    ArrayList<String> liste = new ArrayList<>();
+    ArrayList<String> liste =  new ArrayList<>();
     String datoen="";
     ArrayList<Integer> valgtetider = new ArrayList<>();
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,16 +101,22 @@ public class Reservasjon extends AppCompatActivity {
     }
 
     public void klargjørliste(View view) {
-        //sender over data til neste side
-        String tid = lagnyetider();
-        Intent i = new Intent(this,ReserverRom.class);
-        i.putExtra("tider",tid);
-        i.putExtra("idhus",idhus);
-        i.putExtra("idrom",idrom);
-        i.putExtra("dato",datoen);
-        i.putExtra("husnavn",husnavn);
-        startActivity(i);
-        finish();
+        //dersom ingenting er valgt
+        if (valgtetider.size() == 0){
+            Toast.makeText(this,"Du må velge tider",
+                    Toast.LENGTH_SHORT).show();
+        }else {
+            //sender over data til neste side
+            String tid = lagnyetider();
+            Intent i = new Intent(this,ReserverRom.class);
+            i.putExtra("tider",tid);
+            i.putExtra("idhus",idhus);
+            i.putExtra("idrom",idrom);
+            i.putExtra("dato",datoen);
+            i.putExtra("husnavn",husnavn);
+            startActivity(i);
+            finish();
+        }
     }
 
     private String lagnyetider() {
@@ -178,7 +185,8 @@ public class Reservasjon extends AppCompatActivity {
                         JSONArray romreservasjon = new JSONArray(output);
                         for (int i = 0; i < romreservasjon.length(); i++) {
                             JSONObject jsonobject= romreservasjon.getJSONObject(i);
-                            String dato= jsonobject.getString("dato");
+                            String dato= jsonobject.getString("Dato");
+                            System.out.println("datoene idag"+ dato);
                             int romnummer = jsonobject.getInt("romnummer");
                             int husId = jsonobject.getInt("hus_id");
                             System.out.println("mmmm"+dato);
@@ -210,8 +218,17 @@ public class Reservasjon extends AppCompatActivity {
             k.set(Calendar.MINUTE, Integer.parseInt(stringBuilder.subSequence(3,5).toString()));
             k.set(Calendar.HOUR_OF_DAY,Integer.parseInt(stringBuilder.subSequence(0,2).toString()));
             String tiden =startid;
+            System.out.println("tiiden "+startid);
             //fikk 13.0 istedenfor 13.00 i blant så legger til en 0
-            if (tiden.length()==4){tiden+="0";}
+            if (tiden.length()!=5){
+                String[] tids = tiden.split(".");
+                System.out.println("tiiden "+tids[0]+","+tids[1]+".,"+tids[0].length());
+                if(tids[0].length() != 2){
+                    tiden= "0"+tiden;
+                }else if(tids[1].length() != 2){
+                    tiden=tiden+"0";
+                }
+            }
             int indeks=-1;
             for (int i = 0; i<liste.size();i++){
                 if(liste.get(i).contains(startid)){
@@ -226,15 +243,30 @@ public class Reservasjon extends AppCompatActivity {
                 liste.remove(indeks);//indeks++;
                 k.add(Calendar.MINUTE,30);
                 tiden = k.get(Calendar.HOUR_OF_DAY)+"."+k.get(Calendar.MINUTE);
-                if (tiden.length()==4){tiden+="0";}
+                if (tiden.length()!=5){
+                    String[] tids = tiden.split(".");
+                    System.out.println("tiiden "+tids[0]+","+tids[1]+".,"+tids[0].length());
+                    if(tids[0].length() != 2){
+                        tiden= "0"+tiden;
+                    }else if(tids[1].length() != 2){
+                        tiden=tiden+"0";
+                    }
+                }
             }
         }
 
         @Override
         protected void onPostExecute(ArrayList<String> ss) {
-            String ut = "";
             //oppdaterer listen
-            setListe(ss);
+            if(ss != null) {
+                System.out.println(Arrays.toString(ss.toArray()));
+                setListe(ss);
+            }else {
+                //denne skal ikke komme
+                liste.clear();
+                liste.add("en feil oppstod, prøv igjen senere");
+                setListe(liste);
+            }
         }
     }
     public void onResume(){
