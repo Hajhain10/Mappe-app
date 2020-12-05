@@ -246,16 +246,17 @@ public class Reservasjon extends AppCompatActivity {
                 liste.remove(indeks);
                 k.add(Calendar.MINUTE,30);
                 tiden = k.get(Calendar.HOUR_OF_DAY)+":"+k.get(Calendar.MINUTE);
-                System.out.println("tiiii "+tiden + tiden.length());
+                System.out.println("tiiii "+tiden);
                 if (tiden.length()!=5){
                     String[] tids = tiden.split(":");
                     if(tids[0].length() != 2){
                         tiden= "0"+tiden;
-                    }else if(tids[1].length() != 2){
+                    }
+                    if(tids[1].length() != 2){
                         tiden=tiden+"0";
                     }
-                    System.out.println("tiiden hh "+tiden);
                 }
+                System.out.println("tiiden hh "+tiden);
             }
         }
 
