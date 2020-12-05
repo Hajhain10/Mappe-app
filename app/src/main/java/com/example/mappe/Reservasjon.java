@@ -185,15 +185,16 @@ public class Reservasjon extends AppCompatActivity {
                         JSONArray romreservasjon = new JSONArray(output);
                         for (int i = 0; i < romreservasjon.length(); i++) {
                             JSONObject jsonobject= romreservasjon.getJSONObject(i);
-                            String dato= jsonobject.getString("Dato");
-                            System.out.println("datoene idag"+ dato);
                             int romnummer = jsonobject.getInt("romnummer");
                             int husId = jsonobject.getInt("hus_id");
-                            System.out.println("mmmm"+dato);
-                            //dersom dato og rom  er likt tar vi vekk tider som den er bestilt på
-                            if (datoen.equals(dato) && String.valueOf(romnummer).equals(idrom)
+                            String datok=jsonobject.getString("dato");
+                            System.out.println("datoene idag"+ datok);
+                            //dersom dato og rom er likt tar vi vekk tider som den er bestilt på
+                            if (datoen.equals(datok) && String.valueOf(romnummer).equals(idrom)
                             && String.valueOf(husId).equals(idhus)) {
+                                System.out.println("nå er jeg her"+idrom);
                                 String starttid= jsonobject.getString("starttid");
+                                System.out.println("startiida "+starttid);
                                 String slutttid= jsonobject.getString("slutttid");
                                 tavekktider(starttid,slutttid);
                             }
@@ -212,6 +213,7 @@ public class Reservasjon extends AppCompatActivity {
         //metode for å ta vekk tider som er opptatt
         //Gir du den to tider vil den ta vekk alt i mellom
         private void tavekktider(String startid, String slutttid) {
+            System.out.println("kook"+startid+","+slutttid);
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(startid);
             Calendar k = Calendar.getInstance();
@@ -221,7 +223,7 @@ public class Reservasjon extends AppCompatActivity {
             System.out.println("tiiden "+startid);
             //fikk 13.0 istedenfor 13.00 i blant så legger til en 0
             if (tiden.length()!=5){
-                String[] tids = tiden.split(".");
+                String[] tids = tiden.split(":");
                 System.out.println("tiiden "+tids[0]+","+tids[1]+".,"+tids[0].length());
                 if(tids[0].length() != 2){
                     tiden= "0"+tiden;
@@ -233,24 +235,26 @@ public class Reservasjon extends AppCompatActivity {
             for (int i = 0; i<liste.size();i++){
                 if(liste.get(i).contains(startid)){
                     indeks = i;
-                    System.out.println("mmm nullte indeks"+indeks);
                 }
             }
+            System.out.println("mmm nullte indeks"+indeks);
+            System.out.println("tiiden"+slutttid);
             while (!tiden.equals(slutttid)){
                 System.out.println("mmm"+tiden+ tiden.length());
                 System.out.println("indeks"+indeks);
 
-                liste.remove(indeks);//indeks++;
+                liste.remove(indeks);
                 k.add(Calendar.MINUTE,30);
-                tiden = k.get(Calendar.HOUR_OF_DAY)+"."+k.get(Calendar.MINUTE);
+                tiden = k.get(Calendar.HOUR_OF_DAY)+":"+k.get(Calendar.MINUTE);
+                System.out.println("tiiii "+tiden + tiden.length());
                 if (tiden.length()!=5){
-                    String[] tids = tiden.split(".");
-                    System.out.println("tiiden "+tids[0]+","+tids[1]+".,"+tids[0].length());
+                    String[] tids = tiden.split(":");
                     if(tids[0].length() != 2){
                         tiden= "0"+tiden;
                     }else if(tids[1].length() != 2){
                         tiden=tiden+"0";
                     }
+                    System.out.println("tiiden hh "+tiden);
                 }
             }
         }
@@ -272,6 +276,7 @@ public class Reservasjon extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         //oppdateres hver gang man er i resume
+        System.out.println("er i onresume");
         HuskJSON task = new HuskJSON();
         task.execute(new String[]{"http://student.cs.oslomet.no/~s331409/romout.php"});
     }
