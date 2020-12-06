@@ -81,11 +81,8 @@ public class ReserverRom extends AppCompatActivity {
             String[] biter2 = biter[i].split("til");
             //forste streng blir starttid
             String start = biter2[0];
-            System.out.println("start: "+start.length());
             //andre streng blir slutttid
             String slutt = biter2[1];
-            System.out.println("Slutt "+slutt.length());
-            System.out.println("Slutt "+dato.getText().length());
             //fjerner all tomrom fra slutt- og starttid strengene
             String url = "http://student.cs.oslomet.no/~s331409/romreservasjonin.php/?Romnummer=" + romid.getText() +
                     "&Hus_id=" + hus_id+ "&Dato=" + dato.getText() + "&Starttid="
