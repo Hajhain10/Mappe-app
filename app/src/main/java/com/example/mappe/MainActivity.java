@@ -95,7 +95,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         id = liste[0];
         antalletasjer = liste[1];
         husnavn = marker.getTitle();
-        Toast.makeText(this,"Klikk <rom> for å lage / reservere rom i "+marker.getTitle(),
+        Toast.makeText(this,"Klikk rom knapp for å lage / reservere rom i "+marker.getTitle(),
                 Toast.LENGTH_SHORT).show();
         return false;
     }
@@ -109,9 +109,9 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         m.position(latLng);
         marker = nMap.addMarker(m);
         String send = marker.getPosition().latitude +","+ marker.getPosition().longitude;
-        System.out.println("aaaah"+send);
+       // System.out.println("aaaah"+send);
         GetLocationTask se = new GetLocationTask(send);
-        System.out.println("svar"+send);
+      // System.out.println("svar"+send);
         se.execute();
         m.title("den nye");
         longitude = marker.getPosition().longitude;
@@ -272,7 +272,7 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
                 String vannellerikketype =
                         ((JSONArray)jsonObject.get("results")).getJSONObject(0).getString("types");
                 lokasjon = vannellerikke.toString();
-                System.out.println(lokasjon + " "+vannellerikketype);
+               // System.out.println(lokasjon + " "+vannellerikketype);
                 if(vannellerikke.equals("ROOFTOP")){
                     return true;
                 }else {
@@ -291,7 +291,6 @@ public class MainActivity extends FragmentActivity implements GoogleMap.OnMarker
         @Override
         protected void onPostExecute(Boolean resultat) {
             riktig = resultat;
-            System.out.println("svar "+resultat);
         }
     }
     @Override

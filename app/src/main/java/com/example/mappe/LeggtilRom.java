@@ -53,7 +53,6 @@ public class LeggtilRom extends AppCompatActivity {
                         throw new RuntimeException("Failed: HTTP errorcode: "+ conn.getResponseCode());
                     }
                     BufferedReader br= new BufferedReader(new InputStreamReader((conn.getInputStream())));
-                    System.out.println("Output from Server .... \n");
                     while((s = br.readLine()) != null) { output = output + s; }
                     conn.disconnect();
                     return retur;
@@ -97,21 +96,18 @@ public class LeggtilRom extends AppCompatActivity {
         if(Integer.parseInt(etasjenr)>antalletasjer){
             Toast toast = Toast.makeText(this, "Maks antall etasjer er "+antalletasjer, Toast.LENGTH_SHORT);
             toast.show();
-            System.out.println("etasjenr");
             return false;
         }
         //sjekker om kapasitet-feltet er tom, eller om det er større enn varchar(4)
         if(kapasitet.length() > 4 || kapasitet.length() <= 0 || kapasitet.equals("0")){
             Toast toast = Toast.makeText(this, "kapasitet", Toast.LENGTH_SHORT);
             toast.show();
-            System.out.println("kapasitet");
             return false;
         }
         //sjekker om beskrivelse-feltet er tom, eller om det er større enn varchar(100)
         if(beskrivelse.length() > 100 || beskrivelse.length() <= 0 ){
             Toast toast = Toast.makeText(this, "beskrivelse", Toast.LENGTH_SHORT);
             toast.show();
-            System.out.println("beskrivelse");
             return false;
         }
         return true;

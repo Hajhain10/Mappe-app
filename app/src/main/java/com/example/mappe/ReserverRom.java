@@ -58,7 +58,6 @@ public class ReserverRom extends AppCompatActivity {
                         throw new RuntimeException("Failed: HTTP errorcode: "+ conn.getResponseCode());
                     }
                     BufferedReader br= new BufferedReader(new InputStreamReader((conn.getInputStream())));
-                    System.out.println("Output from Server .... \n");
                     while((s = br.readLine()) != null) { output = output + s; }
                     conn.disconnect();
                     return retur;

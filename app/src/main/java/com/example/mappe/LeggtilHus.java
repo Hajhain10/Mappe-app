@@ -47,6 +47,7 @@ public class LeggtilHus extends AppCompatActivity {
         adresse.setText(ut);
         tekst.setText(latitude+","+longitude);
     }
+    //vil heller hente fra google link ettersom at geicoder bruker lang tid iblant
     public String getLocationFromnumber(String navn) {
         Geocoder coder = new Geocoder(this);
         List<Address> address;
@@ -56,7 +57,6 @@ public class LeggtilHus extends AppCompatActivity {
                     navn,
                     Toast.LENGTH_SHORT).show();
 
-            System.out.println("aaaaaaaa" + navn);
             address = coder.getFromLocation(Double.parseDouble(p[0]), Double.parseDouble(p[1]), 1);
             // address = coder.getFromLocationName(saddress,1);
 
@@ -82,7 +82,6 @@ public class LeggtilHus extends AppCompatActivity {
                         throw new RuntimeException("Failed: HTTP errorcode: "+ conn.getResponseCode());
                     }
                     BufferedReader br= new BufferedReader(new InputStreamReader((conn.getInputStream())));
-                    System.out.println("Output from Server .... \n");
                     while((s = br.readLine()) != null) { output = output + s; }
                     conn.disconnect();
                     return retur;
@@ -115,14 +114,12 @@ public class LeggtilHus extends AppCompatActivity {
         if(beskrivelse.length() > 100 || beskrivelse.length() <= 0 ){
             Toast toast = Toast.makeText(this, "beskrivelse", Toast.LENGTH_SHORT);
             toast.show();
-            System.out.println("beskrivelse");
             return false;
         }
         //sjekker om antallEtasjer-feltet er tom, eller om det er større enn varchar(2)
         if(antallEtasjer.length() > 2 || antallEtasjer.length() <= 0 || antallEtasjer.equals("0")){
             Toast toast = Toast.makeText(this, "etasjenr", Toast.LENGTH_SHORT);
             toast.show();
-            System.out.println("etasjenr");
             return false;
         }
         return true;

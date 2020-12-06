@@ -58,7 +58,6 @@ public class Rominfo extends AppCompatActivity {
                         throw new RuntimeException("Failed: HTTP errorcode: "+ conn.getResponseCode());
                     }
                     BufferedReader br= new BufferedReader(new InputStreamReader((conn.getInputStream())));
-                    System.out.println("Output from Server .... \n");
                     while((s = br.readLine()) != null) { output = output + s; }
                     conn.disconnect();
                     try{
@@ -73,7 +72,7 @@ public class Rominfo extends AppCompatActivity {
                             String etasjenr= jsonobject.getString("etasjenr");
                             int nokkel = jsonobject.getInt("rom_id");
                             String id = husid+""+romid;
-                            System.out.println("bbbb"+id + "og"+nokkel);
+                            //System.out.println("bbbb"+id + "og"+nokkel);
 
                             //dersom primær nøkkelen er lik så henter vi dens info
                             if(id.equals(String.valueOf(nokkel))) {

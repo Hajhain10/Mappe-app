@@ -56,7 +56,7 @@ public class Rom_side extends AppCompatActivity {
                     String[] lb = trakk.split(" ");
                     id = lb[1].toString();
                     rom.setVisibility(View.VISIBLE);
-                    System.out.println("mmmmm " + id + "," + idhus);
+                   // System.out.println("mmmmm " + id + "," + idhus);
                 }
             });
         }
@@ -129,7 +129,6 @@ public class Rom_side extends AppCompatActivity {
                         throw new RuntimeException("Failed: HTTP errorcode: "+ conn.getResponseCode());
                     }
                     BufferedReader br= new BufferedReader(new InputStreamReader((conn.getInputStream())));
-                    System.out.println("Output from Server .... \n");
                     while((s = br.readLine()) != null) { output = output + s; }
                     conn.disconnect();
                     try{
@@ -166,7 +165,6 @@ public class Rom_side extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<String> ss) {
             //oppdaterer liste
-            System.out.println("jaaa "+ss.size()+ss);
             setListe(ss);
         }
 
